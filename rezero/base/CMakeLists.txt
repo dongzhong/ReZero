@@ -11,6 +11,12 @@ if(ANDROID)
     )
 elseif(APPLE)
     if(IOS)
+        set(REZERO_BASE_SPECIFIC_HEADER
+            base/ios/scoped_block.h
+            base/ios/scoped_nsobject.h
+        )
+        set(REZERO_BASE_SPECIFIC_SRC
+        )
     endif()
 endif()
 
