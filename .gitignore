@@ -1,0 +1,33 @@
+# CMake
+build
+build-*
+
+# Gradle
+*.iml
+.gradle
+/local.properties
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# IDEA
+.idea
+.aswb
+.ijwb
+
+# Visual Studio & Visual Studio Code
+.vs
+.vscode
+.ccls
+.ccls-cache
+.project
+.settings
+.classpath
+*.sdf
+*.opensdf
+*.VC.opendb
+*.suo
+*.user
+*.code-workspace

@@ -1,0 +1,4 @@
+include ':rezero'
+project(":rezero").projectDir = new File("../../rezero/library/android")
+include ':app'
+rootProject.name = "ReZero"
