@@ -2,6 +2,7 @@
 
 #include "rezero/shell/android/engine_android.h"
 
+#include "rezero/base/android/jni_util.h"
 #include "rezero/base/logging.h"
 #include "rezero/base/size.h"
 #include "rezero/version.h"
@@ -9,7 +10,7 @@
 namespace rezero {
 namespace shell {
 
-static jclass g_rezero_view_class = nullptr;
+static jni::ScopedJavaGlobalRef<jclass>* g_rezero_view_class = nullptr;
 
 jobject EngineAndroid::JNIGetVersion(JNIEnv* env, jclass java_caller) {
   return env->NewStringUTF(kVersion);
@@ -47,10 +48,14 @@ const JNINativeMethod EngineAndroid::kJNIMethods[] = {
 };
 
 void EngineAndroid::Register(JNIEnv* env) {
-  g_rezero_view_class = env->FindClass("pers/dongzhong/rezero/ReZeroView");
-  REZERO_DCHECK(g_rezero_view_class != nullptr);
+  auto clazz = jni::ScopedJavaLocalRef<jclass>(
+      env, env->FindClass("pers/dongzhong/rezero/ReZeroView"));
+  REZERO_DCHECK(!clazz.is_null());
 
-  auto res = env->RegisterNatives(g_rezero_view_class, kJNIMethods, size(kJNIMethods));
+  g_rezero_view_class = new jni::ScopedJavaGlobalRef<jclass>(clazz);
+  REZERO_DCHECK(!g_rezero_view_class->is_null());
+
+  auto res = env->RegisterNatives(clazz.obj(), kJNIMethods, size(kJNIMethods));
   REZERO_DCHECK(res == 0);
 }
 

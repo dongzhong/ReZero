@@ -1,4 +1,21 @@
+if(ANDROID)
+    set(REZERO_BASE_SPECIFIC_HEADER
+        base/android/jni_util.h
+        base/android/jni_weak_ref.h
+        base/android/scoped_java_ref.h
+    )
+    set(REZERO_BASE_SPECIFIC_SRC
+        base/android/jni_util.cc
+        base/android/jni_weak_ref.cc
+        base/android/scoped_java_ref.cc
+    )
+elseif(APPLE)
+    if(IOS)
+    endif()
+endif()
+
 set(REZERO_BASE_HEADER
+    ${REZERO_BASE_SPECIFIC_HEADER}
     base/build_config.h
     base/log_level.h
     base/log_settings.h
@@ -8,6 +25,7 @@ set(REZERO_BASE_HEADER
 )
 
 set(REZERO_BASE_SRC
+    ${REZERO_BASE_SPECIFIC_SRC}
     base/log_settings_state.cc
     base/log_settings.cc
     base/logging.cc
