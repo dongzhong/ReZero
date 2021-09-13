@@ -1,3 +1,21 @@
+if(APPLE)
+    if(IOS)
+        set(REZERO_PUBLIC_DIR
+            library/ios/include
+        )
+        set(REZERO_PUBLIC_HEADER
+            library/ios/include/ReZero/ReZero.h
+            library/ios/include/ReZero/ReZeroView.h
+        )
+        set(REZERO_LIBRARY_SPECIFIC_HEADER
+            ${REZERO_PUBLIC_HEADER}
+        )
+        set(REZERO_LIBRARY_SPECIFIC_SRC
+            library/ios/source/ReZeroView.mm
+        )
+    endif()
+endif()
+
 set(REZERO_LIBRARY_HEADER
     ${REZERO_LIBRARY_SPECIFIC_HEADER}
 )
