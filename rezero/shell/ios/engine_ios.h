@@ -16,6 +16,9 @@ class EngineIos final : public Engine {
 
   EngineIos();
   ~EngineIos() override;
+
+ private:
+  REZERO_DISALLOW_COPY_AND_ASSIGN(EngineIos);
 };
 
 } // namespace shell

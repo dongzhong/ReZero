@@ -3,6 +3,8 @@
 #ifndef REZERO_SHELL_ENGINE_H_
 #define REZERO_SHELL_ENGINE_H_
 
+#include "rezero/base/macros.h"
+
 namespace rezero {
 namespace shell {
 
@@ -10,6 +12,8 @@ class Engine {
  public:
   Engine();
   virtual ~Engine();
+
+  REZERO_DISALLOW_COPY_AND_ASSIGN(Engine);
 };
 
 } // namespace shell

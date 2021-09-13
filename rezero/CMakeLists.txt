@@ -27,6 +27,10 @@ if(ANDROID)
 
     add_definitions("-DREZERO_PLATFORM_STR=\"Android\"")
 
+    target_link_libraries(rezero PUBLIC
+        log
+    )
+
     target_include_directories(rezero PUBLIC ${REZERO_ROOT_PATH})
 elseif(APPLE)
     if(IOS)

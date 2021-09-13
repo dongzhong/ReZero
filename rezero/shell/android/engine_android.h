@@ -29,6 +29,8 @@ class EngineAndroid final : public Engine {
   static void JNIRelease(JNIEnv* env, jobject java_caller, jlong native_ptr);
 
   static const JNINativeMethod kJNIMethods[];
+
+  REZERO_DISALLOW_COPY_AND_ASSIGN(EngineAndroid);
 };
 
 } // namespace shell

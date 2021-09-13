@@ -2,6 +2,7 @@
 
 #include "rezero/shell/android/engine_android.h"
 
+#include "rezero/base/logging.h"
 #include "rezero/base/size.h"
 #include "rezero/version.h"
 
@@ -47,8 +48,10 @@ const JNINativeMethod EngineAndroid::kJNIMethods[] = {
 
 void EngineAndroid::Register(JNIEnv* env) {
   g_rezero_view_class = env->FindClass("pers/dongzhong/rezero/ReZeroView");
+  REZERO_DCHECK(g_rezero_view_class != nullptr);
 
-  env->RegisterNatives(g_rezero_view_class, kJNIMethods, size(kJNIMethods));
+  auto res = env->RegisterNatives(g_rezero_view_class, kJNIMethods, size(kJNIMethods));
+  REZERO_DCHECK(res == 0);
 }
 
 std::unique_ptr<EngineAndroid> EngineAndroid::Create() {
