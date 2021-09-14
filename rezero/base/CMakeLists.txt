@@ -28,6 +28,8 @@ set(REZERO_BASE_HEADER
     base/logging.h
     base/macros.h
     base/size.h
+    base/time/time_delta.h
+    base/time/time_point.h
 )
 
 set(REZERO_BASE_SRC
@@ -35,4 +37,5 @@ set(REZERO_BASE_SRC
     base/log_settings_state.cc
     base/log_settings.cc
     base/logging.cc
+    base/time/time_point.cc
 )
