@@ -2,20 +2,27 @@ if(ANDROID)
     set(REZERO_BASE_SPECIFIC_HEADER
         base/android/jni_util.h
         base/android/jni_weak_ref.h
+        base/android/message_loop_android.h
         base/android/scoped_java_ref.h
+        base/android/timer_fd.h
     )
     set(REZERO_BASE_SPECIFIC_SRC
         base/android/jni_util.cc
         base/android/jni_weak_ref.cc
+        base/android/message_loop_android.cc
         base/android/scoped_java_ref.cc
+        base/android/timer_fd.cc
     )
 elseif(APPLE)
     if(IOS)
         set(REZERO_BASE_SPECIFIC_HEADER
+            base/ios/cf_utils.h
+            base/ios/message_loop_ios.h
             base/ios/scoped_block.h
             base/ios/scoped_nsobject.h
         )
         set(REZERO_BASE_SPECIFIC_SRC
+            base/ios/message_loop_ios.mm
         )
     endif()
 endif()
@@ -23,19 +30,38 @@ endif()
 set(REZERO_BASE_HEADER
     ${REZERO_BASE_SPECIFIC_HEADER}
     base/build_config.h
+    base/closure.h
+    base/delayed_task.h
+    base/eintr_wrapper.h
     base/log_level.h
     base/log_settings.h
     base/logging.h
     base/macros.h
+    base/message_loop.h
+    base/message_loop_impl.h
     base/size.h
+    base/task_runner.h
+    base/thread.h
+    base/thread_local.h
     base/time/time_delta.h
     base/time/time_point.h
+    base/unique_fd.h
+    base/unique_object.h
+    base/waitable_event.h
 )
 
 set(REZERO_BASE_SRC
     ${REZERO_BASE_SPECIFIC_SRC}
+    base/delayed_task.cc
     base/log_settings_state.cc
     base/log_settings.cc
     base/logging.cc
+    base/message_loop.cc
+    base/message_loop_impl.cc
+    base/task_runner.cc
+    base/thread.cc
+    base/thread_local.cc
     base/time/time_point.cc
+    base/unique_fd.cc
+    base/waitable_event.cc
 )

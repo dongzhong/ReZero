@@ -52,7 +52,7 @@ bool ShouldCreateLogMessage(LogSeverity severity);
 #define REZERO_EAT_STREAM_PARAMETERS(ignored) \
   true || (ignored)                           \
       ? (void)0                               \
-      : ::rezero::LogVoidify() &              \
+      : ::rezero::LogMessageVoidify() &       \
             ::rezero::LogMessage(::rezero::LOG_FATAL, 0, 0, nullptr).stream()
 
 #define REZERO_LOG_IS_ON(severity) \
@@ -81,7 +81,7 @@ bool ShouldCreateLogMessage(LogSeverity severity);
 #define REZERO_DCHECK(condition) REZERO_CHECK(condition)
 #else
 #define REZERO_DLOG(severity) REZERO_EAT_STREAM_PARAMETERS(true)
-#define REZEROL_DCHECK(condition) REZERO_EAT_STREAM_PARAMETERS(condition)
+#define REZERO_DCHECK(condition) REZERO_EAT_STREAM_PARAMETERS(condition)
 #endif
 
 #define REZERO_UNREACHABLE()                          \

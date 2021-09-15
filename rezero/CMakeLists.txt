@@ -28,6 +28,8 @@ if(ANDROID)
     add_definitions("-DREZERO_PLATFORM_STR=\"Android\"")
 
     target_link_libraries(rezero PUBLIC
+        atomic
+        android
         log
     )
 
