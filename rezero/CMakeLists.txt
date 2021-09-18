@@ -41,11 +41,21 @@ elseif(APPLE)
         add_definitions("-DREZERO_PLATFORM_STR=\"iOS\"")
 
         target_link_libraries(rezero PUBLIC
+            "-framework QuartzCore"
             "-framework UIKit"
         )
 
         target_include_directories(rezero PUBLIC ${REZERO_PUBLIC_DIR})
         target_include_directories(rezero PRIVATE ${REZERO_ROOT_PATH})
+
+        set(REZERO_ARC_SOURCES
+            ${REZERO_BASE_ARC_SOURCES}
+            ${REZERO_LIBRARY_ARC_SOURCES}
+            ${REZERO_SHELL_ARC_SOURCES}
+        )
+
+        set_source_files_properties(${REZERO_SRC} PROPERTIES COMPILE_FLAGS -fno-objc-arc)
+        set_source_files_properties(${REZERO_ARC_SOURCES} PROPERTIES COMPILE_FLAGS -fobjc-arc)
 
         set_target_properties(rezero PROPERTIES
             OUTPUT_NAME ReZero

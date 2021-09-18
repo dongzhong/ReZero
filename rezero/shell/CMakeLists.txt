@@ -1,18 +1,26 @@
 if(ANDROID)
     set(REZERO_SHELL_PLATFORM_SPECIFIC_HEADER
         shell/android/engine_android.h
+        shell/android/platform_view_android.h
+        shell/android/surface/native_window.h
     )
     set(REZERO_SHELL_PLATFORM_SPECIFIC_SRC
         shell/android/engine_android.cc
         shell/android/jni_on_load.cc
+        shell/android/platform_view_android.cc
+        shell/android/surface/native_window.cc
     )
 elseif(APPLE)
     if(IOS)
         set(REZERO_SHELL_PLATFORM_SPECIFIC_HEADER
             shell/ios/engine_ios.h
+            shell/ios/platform_view_ios.h
+            shell/ios/rendering_api_selection.h
         )
         set(REZERO_SHELL_PLATFORM_SPECIFIC_SRC
             shell/ios/engine_ios.mm
+            shell/ios/platform_view_ios.mm
+            shell/ios/rendering_api_selection.mm
         )
     endif()
 endif()
@@ -20,9 +28,11 @@ endif()
 set(REZERO_SHELL_HEADER
     ${REZERO_SHELL_PLATFORM_SPECIFIC_HEADER}
     shell/engine.h
+    shell/platform_view.h
 )
 
 set(REZERO_SHELL_SRC
     ${REZERO_SHELL_PLATFORM_SPECIFIC_SRC}
     shell/engine.cc
+    shell/platform_view.cc
 )

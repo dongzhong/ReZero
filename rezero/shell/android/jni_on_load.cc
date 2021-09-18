@@ -5,6 +5,7 @@
 #include "rezero/base/android/jni_util.h"
 #include "rezero/base/logging.h"
 #include "rezero/shell/android/engine_android.h"
+#include "rezero/shell/android/platform_view_android.h"
 
 extern "C" JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
@@ -14,6 +15,7 @@ extern "C" JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
   rezero::jni::InitJavaVM(vm);
 
   rezero::shell::EngineAndroid::Register(env);
+  rezero::shell::PlatformViewAndroid::Register(env);
 
   return JNI_VERSION_1_4;
 }

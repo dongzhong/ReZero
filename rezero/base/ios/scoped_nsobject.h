@@ -3,9 +3,9 @@
 #ifndef REZERO_BASE_IOS_SCOPED_NSOBJECT_H_
 #define REZERO_BASE_IOS_SCOPED_NSOBJECT_H_
 
-#import <Foundation/NSObject>
+#import <Foundation/NSObject.h>
 
-#include "rezero/baes/macros.h"
+#include "rezero/base/macros.h"
 
 @class NSAutoreleasePool;
 

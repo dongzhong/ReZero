@@ -6,6 +6,7 @@
 
 #include "rezero/version.h"
 #include "rezero/shell/ios/engine_ios.h"
+#include "rezero/shell/ios/rendering_api_selection.h"
 
 using namespace rezero;
 
@@ -35,7 +36,12 @@ using namespace rezero;
 }
 
 - (void)commonInit {
-  engine_ = rezero::shell::EngineIos::Create();
+  engine_ = rezero::shell::EngineIos::Create([self layer]);
+}
+
++ (Class)layerClass {
+  return rezero::shell::GetCALayerClassForRenderingApi(
+      rezero::shell::GetRenderingApiForProcess());
 }
 
 @end

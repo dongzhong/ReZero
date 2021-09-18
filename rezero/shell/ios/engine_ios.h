@@ -7,12 +7,14 @@
 
 #include "rezero/shell/engine.h"
 
+#import <QuartzCore/CALayer.h>
+
 namespace rezero {
 namespace shell {
 
 class EngineIos final : public Engine {
  public:
-  static std::unique_ptr<EngineIos> Create();
+  static std::unique_ptr<EngineIos> Create(CALayer* layer);
 
   EngineIos();
   ~EngineIos() override;

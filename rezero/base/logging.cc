@@ -90,7 +90,7 @@ LogMessage::~LogMessage() {
   }
   __android_log_write(log_priority, "rezero", stream_.str().c_str());
 #elif defined(REZERO_PLATFORM_IOS)
-  syslog(LOG_ALERT, stream_.str().c_str());
+  syslog(LOG_ALERT, "%s", stream_.str().c_str());
 #else
   std::cerr << stream_.str();
   std::cerr.flush();

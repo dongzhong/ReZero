@@ -7,17 +7,37 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 
 public class ReZeroView extends FrameLayout {
   private long nativePtr;
+  private RenderMode renderMode;
+  private RenderSurface renderSurface;
 
-  public ReZeroView(Context context) {
-    this(context, null);
+  @Nullable
+  private PlatformView platformView;
+
+  @UiThread
+  public ReZeroView(@NonNull Context context) {
+    this(context, null, null);
   }
 
-  public ReZeroView(Context context, AttributeSet attrs) {
+  @UiThread
+  public ReZeroView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    this(context, attrs, null);
+  }
+
+  @UiThread
+  public ReZeroView(@NonNull Context context, @Nullable RenderMode renderMode) {
+    this(context, null, renderMode);
+  }
+
+  @UiThread
+  public ReZeroView(@NonNull Context context, @Nullable AttributeSet attrs, @Nullable RenderMode renderMode) {
     super(context, attrs);
+    this.renderMode = renderMode == null ? RenderMode.texture : renderMode;
     init();
   }
 
@@ -29,17 +49,40 @@ public class ReZeroView extends FrameLayout {
     try {
       System.loadLibrary("rezero");
     } catch (Throwable e) {
-      Log.i("rezero", "Failed to load ReZero native libaray: ", e);
+      Log.i("rezero", "Failed to load ReZero native library: ", e);
     }
   }
 
   private void init() {
     nativePtr = nativeCreate(getContext());
+    platformView = new PlatformView(this);
+
+    switch (renderMode) {
+      case texture:
+        ReZeroTextureView textureView = new ReZeroTextureView(getContext());
+        renderSurface = textureView;
+        addView(textureView);
+        break;
+      case surface:
+        ReZeroSurfaceView surfaceView = new ReZeroSurfaceView(getContext());
+        renderSurface = surfaceView;
+        addView(surfaceView);
+        break;
+    }
+    platformView.attachToRenderSurface(renderSurface);
   }
 
   @UiThread
   public void release() {
-    nativeRelease(nativePtr);
+    if (platformView != null) {
+      platformView.release();
+      platformView = null;
+    }
+
+    if (nativePtr != 0) {
+      nativeRelease(nativePtr);
+      nativePtr = 0;
+    }
   }
 
   @Override

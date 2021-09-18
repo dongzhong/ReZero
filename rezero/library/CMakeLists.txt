@@ -13,6 +13,10 @@ if(APPLE)
         set(REZERO_LIBRARY_SPECIFIC_SRC
             library/ios/source/ReZeroView.mm
         )
+        set(REZERO_LIBRARY_ARC_SOURCES
+            ${REZERO_LIBRARY_SPECIFIC_HEADER}
+            ${REZERO_LIBRARY_SPECIFIC_SRC}
+        )
     endif()
 endif()
 

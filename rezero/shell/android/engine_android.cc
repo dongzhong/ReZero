@@ -11,14 +11,17 @@ namespace rezero {
 namespace shell {
 
 static jni::ScopedJavaGlobalRef<jclass>* g_rezero_view_class = nullptr;
+static jfieldID g_native_ptr_field = nullptr;
 
 jobject EngineAndroid::JNIGetVersion(JNIEnv* env, jclass java_caller) {
   return env->NewStringUTF(kVersion);
 }
 
-jlong EngineAndroid::JNICreate(JNIEnv* env, jobject java_caller, jobject java_context) {
+jlong EngineAndroid::JNICreate(JNIEnv* env,
+                               jobject java_caller,
+                               jobject java_context) {
   auto* ptr = new std::unique_ptr<EngineAndroid>(
-      EngineAndroid::Create());
+      EngineAndroid::Create(jni::ScopedJavaLocalRef<jobject>(env, java_context)));
   return reinterpret_cast<jlong>(ptr);
 }
 
@@ -57,13 +60,28 @@ void EngineAndroid::Register(JNIEnv* env) {
 
   auto res = env->RegisterNatives(clazz.obj(), kJNIMethods, size(kJNIMethods));
   REZERO_DCHECK(res == 0);
+
+  g_native_ptr_field = env->GetFieldID(clazz.obj(), "nativePtr", "J");
+  REZERO_DCHECK(g_native_ptr_field);
 }
 
-std::unique_ptr<EngineAndroid> EngineAndroid::Create() {
-  return std::make_unique<EngineAndroid>();
+std::unique_ptr<EngineAndroid>* EngineAndroid::GetFromJavaObj(
+    JNIEnv* env, jobject java_obj) {
+  jlong ptr = env->GetLongField(java_obj, g_native_ptr_field);
+  REZERO_DCHECK(ptr);
+
+  return reinterpret_cast<std::unique_ptr<EngineAndroid>*>(ptr);
 }
 
-EngineAndroid::EngineAndroid() = default;
+std::unique_ptr<EngineAndroid> EngineAndroid::Create(
+    const jni::JavaRef<jobject>& java_context) {
+  return std::make_unique<EngineAndroid>(java_context);
+}
+
+EngineAndroid::EngineAndroid(const jni::JavaRef<jobject>& java_context)
+    : java_context_(java_context) {
+  REZERO_DCHECK(!java_context_.is_null());
+}
 
 EngineAndroid::~EngineAndroid() = default;
 
