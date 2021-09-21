@@ -7,9 +7,9 @@
 namespace rezero {
 namespace shell {
 
-PlatformView::PlatformView(const std::shared_ptr<TaskRunner>& main_task_runner)
-    : main_task_runner_(main_task_runner) {
-  REZERO_DCHECK(main_task_runner_);
+PlatformView::PlatformView(const std::shared_ptr<TaskRunners>& task_runners)
+    : task_runners_(task_runners) {
+  REZERO_DCHECK(task_runners_);
 }
 
 PlatformView::~PlatformView() = default;

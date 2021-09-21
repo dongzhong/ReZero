@@ -7,7 +7,7 @@
 @interface ViewController ()
 
 @property (unsafe_unretained, nonatomic) IBOutlet UILabel *label;
-@property (unsafe_unretained, nonatomic) IBOutlet ReZeroView *rezeroView;
+@property (strong, nonatomic) IBOutlet ReZeroView *rezeroView;
 
 @end
 

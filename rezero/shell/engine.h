@@ -4,6 +4,7 @@
 #define REZERO_SHELL_ENGINE_H_
 
 #include "rezero/base/macros.h"
+#include "rezero/base/task_runners.h"
 #include "rezero/base/thread.h"
 #include "rezero/shell/platform_view.h"
 
@@ -15,17 +16,20 @@ class Engine {
   Engine();
   virtual ~Engine();
 
-  std::shared_ptr<TaskRunner> GetPlatformTaskRunner() const { return platform_task_runner_; }
+  std::shared_ptr<TaskRunner> GetPlatformTaskRunner() const;
 
-  std::shared_ptr<TaskRunner> GetMainTaskRunner() const { return main_thread_->GetTaskRunner(); }
+  std::shared_ptr<TaskRunner> GetMainTaskRunner() const;
+
+  std::shared_ptr<TaskRunners> GetTaskRunners() const;
 
   void SetPlatformView(const std::shared_ptr<PlatformView>& platform_view);
 
  private:
   std::unique_ptr<Thread> main_thread_;
-  std::shared_ptr<TaskRunner> platform_task_runner_;
 
   std::shared_ptr<PlatformView> platform_view_;
+
+  std::shared_ptr<TaskRunners> task_runners_;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(Engine);
 };

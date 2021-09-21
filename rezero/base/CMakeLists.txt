@@ -41,6 +41,7 @@ set(REZERO_BASE_HEADER
     base/message_loop_impl.h
     base/size.h
     base/task_runner.h
+    base/task_runners.h
     base/thread.h
     base/thread_local.h
     base/time/time_delta.h
@@ -59,6 +60,7 @@ set(REZERO_BASE_SRC
     base/message_loop.cc
     base/message_loop_impl.cc
     base/task_runner.cc
+    base/task_runners.cc
     base/thread.cc
     base/thread_local.cc
     base/time/time_point.cc

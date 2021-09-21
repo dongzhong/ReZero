@@ -3,7 +3,8 @@
 #ifndef REZERO_SHELL_ANDROID_PLATFORM_VIEW_ANDROID_H_
 #define REZERO_SHELL_ANDROID_PLATFORM_VIEW_ANDROID_H_
 
-#include "rezero/base/android/jni_util.h"
+//#include "rezero/base/android/jni_util.h"
+#include "rezero/base/android/scoped_java_ref.h"
 #include "rezero/shell/platform_view.h"
 #include "rezero/shell/android/surface/native_window.h"
 
@@ -14,7 +15,8 @@ class PlatformViewAndroid final : public PlatformView {
  public:
   static void Register(JNIEnv* env);
 
-  PlatformViewAndroid(const std::shared_ptr<TaskRunner>& main_task_runner);
+  PlatformViewAndroid(const std::shared_ptr<TaskRunners>& task_runners,
+                      const jni::ScopedJavaGlobalRef<jobject>& java_context);
   ~PlatformViewAndroid() override;
 
  private:
@@ -29,6 +31,8 @@ class PlatformViewAndroid final : public PlatformView {
   static void JNISurfaceChanged(JNIEnv* env, jobject java_caller, jlong native_ptr);
 
   static const JNINativeMethod kJNIMethods[];
+
+  void CreateVsyncWaiter(const jni::ScopedJavaGlobalRef<jobject>& java_context);
 
   void SurfaceCreate(JNIEnv* env, jobject java_surface);
 

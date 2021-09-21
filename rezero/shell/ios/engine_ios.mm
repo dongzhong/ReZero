@@ -10,7 +10,7 @@ namespace shell {
 std::unique_ptr<EngineIos> EngineIos::Create(CALayer* layer) {
   auto engine = std::make_unique<EngineIos>();
   auto platform_view =
-      std::make_shared<PlatformViewIos>(engine->GetMainTaskRunner(),
+      std::make_shared<PlatformViewIos>(engine->GetTaskRunners(),
                                         scoped_nsobject<CALayer>{[layer retain]});
   engine->SetPlatformView(platform_view);
   return engine;

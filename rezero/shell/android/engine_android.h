@@ -24,6 +24,10 @@ class EngineAndroid final : public Engine {
 
   static std::unique_ptr<EngineAndroid>* GetFromJavaObj(JNIEnv* env, jobject java_obj);
 
+  jni::ScopedJavaGlobalRef<jobject> GetJavaContext() const {
+    return java_context_;
+  }
+
  private:
   static jobject JNIGetVersion(JNIEnv* env, jclass java_caller);
 
@@ -33,7 +37,7 @@ class EngineAndroid final : public Engine {
 
   static const JNINativeMethod kJNIMethods[];
 
-  jni::ScopedJavaLocalRef<jobject> java_context_;
+  jni::ScopedJavaGlobalRef<jobject> java_context_;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(EngineAndroid);
 };

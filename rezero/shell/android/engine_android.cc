@@ -21,7 +21,7 @@ jlong EngineAndroid::JNICreate(JNIEnv* env,
                                jobject java_caller,
                                jobject java_context) {
   auto* ptr = new std::unique_ptr<EngineAndroid>(
-      EngineAndroid::Create(jni::ScopedJavaLocalRef<jobject>(env, java_context)));
+      EngineAndroid::Create(jni::ScopedJavaGlobalRef<jobject>(env, java_context)));
   return reinterpret_cast<jlong>(ptr);
 }
 

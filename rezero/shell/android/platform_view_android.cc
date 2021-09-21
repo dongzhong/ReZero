@@ -4,10 +4,12 @@
 
 #include <android/native_window_jni.h>
 
+#include "rezero/base/android/jni_util.h"
 #include "rezero/base/logging.h"
 #include "rezero/base/size.h"
 #include "rezero/base/waitable_event.h"
 #include "rezero/shell/android/engine_android.h"
+#include "rezero/shell/android/vsync_waiter_android.h"
 
 namespace rezero {
 namespace shell {
@@ -17,7 +19,8 @@ static jni::ScopedJavaGlobalRef<jclass>* g_platform_view_class = nullptr;
 jlong PlatformViewAndroid::JNICreate(JNIEnv* env, jobject java_caller, jobject java_engine) {
   auto* engine = EngineAndroid::GetFromJavaObj(env, java_engine);
   auto* ptr = new std::shared_ptr<PlatformViewAndroid>(
-      std::make_shared<PlatformViewAndroid>((*engine)->GetMainTaskRunner()));
+      std::make_shared<PlatformViewAndroid>((*engine)->GetTaskRunners(),
+                                            (*engine)->GetJavaContext()));
   (*engine)->SetPlatformView((*ptr));
   return reinterpret_cast<jlong>(ptr);
 }
@@ -90,16 +93,26 @@ void PlatformViewAndroid::Register(JNIEnv* env) {
 }
 
 PlatformViewAndroid::PlatformViewAndroid(
-    const std::shared_ptr<TaskRunner>& main_task_runner)
-    : PlatformView(main_task_runner) {}
+    const std::shared_ptr<TaskRunners>& task_runners,
+    const jni::ScopedJavaGlobalRef<jobject>& java_context)
+    : PlatformView(task_runners) {
+  CreateVsyncWaiter(java_context);
+}
 
 PlatformViewAndroid::~PlatformViewAndroid() = default;
+
+void PlatformViewAndroid::CreateVsyncWaiter(
+    const jni::ScopedJavaGlobalRef<jobject>& java_context) {
+  vsync_waiter_ = VsyncWaiterAndroid::Create(task_runners_,
+                                             java_context);
+  REZERO_DCHECK(vsync_waiter_);
+}
 
 void PlatformViewAndroid::SurfaceCreate(JNIEnv* env, jobject java_surface) {
   ANativeWindow* native_window = ANativeWindow_fromSurface(env, java_surface);
 
   AutoResetWaitableEvent latch;
-  main_task_runner_->PostTask([this, native_window, &latch]() {
+  task_runners_->GetMainTaskRunner()->PostTask([this, native_window, &latch]() {
     native_window_ = std::make_shared<NativeWindow>(native_window);
 
     // TODO: Start to render
@@ -111,7 +124,7 @@ void PlatformViewAndroid::SurfaceCreate(JNIEnv* env, jobject java_surface) {
 
 void PlatformViewAndroid::SurfaceDestroy() {
   AutoResetWaitableEvent latch;
-  main_task_runner_->PostTask([this, &latch]() {
+  task_runners_->GetMainTaskRunner()->PostTask([this, &latch]() {
     // TODO: Pause rendering
 
     native_window_ = nullptr;

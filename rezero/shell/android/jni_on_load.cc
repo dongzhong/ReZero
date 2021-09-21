@@ -6,6 +6,7 @@
 #include "rezero/base/logging.h"
 #include "rezero/shell/android/engine_android.h"
 #include "rezero/shell/android/platform_view_android.h"
+#include "rezero/shell/android/vsync_waiter_android.h"
 
 extern "C" JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
@@ -16,6 +17,7 @@ extern "C" JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   rezero::shell::EngineAndroid::Register(env);
   rezero::shell::PlatformViewAndroid::Register(env);
+  rezero::shell::VsyncWaiterAndroid::Register(env);
 
   return JNI_VERSION_1_4;
 }

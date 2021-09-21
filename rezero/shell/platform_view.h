@@ -4,18 +4,20 @@
 #define REZERO_SHELL_PLATFORM_VIEW_H_
 
 #include "rezero/base/macros.h"
-#include "rezero/base/task_runner.h"
+#include "rezero/base/task_runners.h"
+#include "rezero/shell/vsync_waiter.h"
 
 namespace rezero {
 namespace shell {
 
 class PlatformView {
  public:
-  PlatformView(const std::shared_ptr<TaskRunner>& main_task_runner);
+  PlatformView(const std::shared_ptr<TaskRunners>& task_runners);
   virtual ~PlatformView();
 
  protected:
-  std::shared_ptr<TaskRunner> main_task_runner_;
+  std::shared_ptr<TaskRunners> task_runners_;
+  std::shared_ptr<VsyncWaiter> vsync_waiter_;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(PlatformView);
 };

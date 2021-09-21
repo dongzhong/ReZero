@@ -13,12 +13,11 @@ namespace shell {
 
 class PlatformViewIos final : public PlatformView {
  public:
-  PlatformViewIos(const std::shared_ptr<TaskRunner>& main_task_runner,
+  PlatformViewIos(const std::shared_ptr<TaskRunners>& task_runners,
                   const scoped_nsobject<CALayer>& layer);
   ~PlatformViewIos() override;
 
  private:
-  // TODO:
   scoped_nsobject<CALayer> layer_;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(PlatformViewIos);

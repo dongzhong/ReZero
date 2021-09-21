@@ -3,6 +3,7 @@
 #ifndef REZERO_BASE_ANDROID_SCOPED_JAVA_REF_H_
 #define REZERO_BASE_ANDROID_SCOPED_JAVA_REF_H_
 
+#include <cstddef>
 #include <jni.h>
 
 #include "rezero/base/macros.h"
@@ -114,7 +115,7 @@ class ScopedJavaGlobalRef : public JavaRef<T> {
  public:
   ScopedJavaGlobalRef() {}
 
-  explicit ScopedJavaGlobalRef(const ScopedJavaGlobalRef<T>& other) {
+  ScopedJavaGlobalRef(const ScopedJavaGlobalRef<T>& other) {
     this->Reset(other);
   }
 
