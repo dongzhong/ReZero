@@ -30,6 +30,8 @@ class PlatformViewAndroid final : public PlatformView {
 
   static void JNISurfaceChanged(JNIEnv* env, jobject java_caller, jlong native_ptr);
 
+  static void JNISetVisibilityChanged(JNIEnv* env, jobject java_caller, jlong native_ptr, jboolean visibility);
+
   static const JNINativeMethod kJNIMethods[];
 
   void CreateVsyncWaiter(const jni::ScopedJavaGlobalRef<jobject>& java_context);
@@ -40,7 +42,10 @@ class PlatformViewAndroid final : public PlatformView {
 
   void SurfaceChanged();
 
+  void OnVisibilityChanged(bool visibility);
+
   std::shared_ptr<NativeWindow> native_window_;
+  bool is_visible_ = false;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(PlatformViewAndroid);
 };

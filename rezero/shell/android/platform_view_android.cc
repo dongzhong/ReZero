@@ -52,6 +52,15 @@ void PlatformViewAndroid::JNISurfaceChanged(JNIEnv* env, jobject java_caller, jl
   }
 }
 
+void PlatformViewAndroid::JNISetVisibilityChanged(JNIEnv* env,
+                                                  jobject java_caller,
+                                                  jlong native_ptr,
+                                                  jboolean visibility) {
+  if (auto* ptr = reinterpret_cast<std::shared_ptr<PlatformViewAndroid>*>(native_ptr)) {
+    (*ptr)->OnVisibilityChanged(static_cast<bool>(visibility));
+  }
+}
+
 const JNINativeMethod PlatformViewAndroid::kJNIMethods[] = {
     {
         .name = "nativeCreate",
@@ -77,6 +86,11 @@ const JNINativeMethod PlatformViewAndroid::kJNIMethods[] = {
         .name = "nativeSurfaceChanged",
         .signature = "(J)V",
         .fnPtr = reinterpret_cast<void*>(&PlatformViewAndroid::JNISurfaceChanged),
+    },
+    {
+        .name = "nativeSetVisibilityChanged",
+        .signature = "(JZ)V",
+        .fnPtr = reinterpret_cast<void*>(&PlatformViewAndroid::JNISetVisibilityChanged),
     },
 };
 
@@ -115,7 +129,9 @@ void PlatformViewAndroid::SurfaceCreate(JNIEnv* env, jobject java_surface) {
   task_runners_->GetMainTaskRunner()->PostTask([this, native_window, &latch]() {
     native_window_ = std::make_shared<NativeWindow>(native_window);
 
-    // TODO: Start to render
+    if (is_visible_) {
+      Resume();
+    }
 
     latch.Signal();
   });
@@ -125,7 +141,7 @@ void PlatformViewAndroid::SurfaceCreate(JNIEnv* env, jobject java_surface) {
 void PlatformViewAndroid::SurfaceDestroy() {
   AutoResetWaitableEvent latch;
   task_runners_->GetMainTaskRunner()->PostTask([this, &latch]() {
-    // TODO: Pause rendering
+    Pause();
 
     native_window_ = nullptr;
 
@@ -136,6 +152,21 @@ void PlatformViewAndroid::SurfaceDestroy() {
 
 void PlatformViewAndroid::SurfaceChanged() {
   // TODO:
+}
+
+void PlatformViewAndroid::OnVisibilityChanged(bool visibility) {
+  AutoResetWaitableEvent latch;
+  task_runners_->GetMainTaskRunner()->PostTask(
+      [this, visibility, &latch]() {
+        is_visible_ = visibility;
+        if (is_visible_ && native_window_) {
+          Resume();
+        } else {
+          Pause();
+        }
+        latch.Signal();
+      });
+  latch.Wait();
 }
 
 } // namespace shell

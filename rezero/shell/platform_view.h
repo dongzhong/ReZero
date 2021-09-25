@@ -15,9 +15,20 @@ class PlatformView {
   PlatformView(const std::shared_ptr<TaskRunners>& task_runners);
   virtual ~PlatformView();
 
+  void Resume();
+  void Pause();
+
  protected:
   std::shared_ptr<TaskRunners> task_runners_;
   std::shared_ptr<VsyncWaiter> vsync_waiter_;
+
+  bool is_context_initialized_ = false;
+
+ private:
+  void AsyncAwaitVsync();
+  void OnVsync(TimePoint start_time, TimePoint end_time);
+
+  bool is_running_ = false;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(PlatformView);
 };

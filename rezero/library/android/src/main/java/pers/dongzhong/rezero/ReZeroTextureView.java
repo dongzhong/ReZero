@@ -7,6 +7,7 @@ import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -122,5 +123,13 @@ class ReZeroTextureView extends TextureView implements RenderSurface {
     }
 
     this.platformView.surfaceChanged();
+  }
+
+  @Override
+  protected void onVisibilityChanged(View changedView, int visibility) {
+    super.onVisibilityChanged(changedView, visibility);
+    if (this.platformView != null) {
+      this.platformView.setVisibilityChanged(isShown());
+    }
   }
 }

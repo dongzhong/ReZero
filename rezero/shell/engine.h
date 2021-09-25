@@ -24,10 +24,11 @@ class Engine {
 
   void SetPlatformView(const std::shared_ptr<PlatformView>& platform_view);
 
+ protected:
+  std::shared_ptr<PlatformView> platform_view_;
+
  private:
   std::unique_ptr<Thread> main_thread_;
-
-  std::shared_ptr<PlatformView> platform_view_;
 
   std::shared_ptr<TaskRunners> task_runners_;
 

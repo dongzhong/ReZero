@@ -19,6 +19,9 @@ class EngineIos final : public Engine {
   EngineIos();
   ~EngineIos() override;
 
+  void Resume();
+  void Pause();
+
  private:
   REZERO_DISALLOW_COPY_AND_ASSIGN(EngineIos);
 };

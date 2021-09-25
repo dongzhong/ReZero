@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -109,5 +110,13 @@ class ReZeroSurfaceView extends SurfaceView implements RenderSurface {
     }
 
     this.platformView.surfaceChanged();
+  }
+
+  @Override
+  protected void onVisibilityChanged(View changedView, int visibility) {
+    super.onVisibilityChanged(changedView, visibility);
+    if (this.platformView != null) {
+      this.platformView.setVisibilityChanged(isShown());
+    }
   }
 }

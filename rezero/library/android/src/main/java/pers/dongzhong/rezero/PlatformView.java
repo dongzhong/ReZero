@@ -47,6 +47,12 @@ class PlatformView {
     }
   }
 
+  void setVisibilityChanged(boolean visibility) {
+    if (nativePtr != 0) {
+      nativeSetVisibilityChanged(nativePtr, visibility);
+    }
+  }
+
   void release() {
     if (nativePtr != 0) {
       nativeDestroy(nativePtr);
@@ -59,4 +65,5 @@ class PlatformView {
   private native void nativeSurfaceCreate(long nativePtr, Surface surface);
   private native void nativeSurfaceDestroy(long nativePtr);
   private native void nativeSurfaceChanged(long nativePtr);
+  private native void nativeSetVisibilityChanged(long nativePtr, boolean visibility);
 }

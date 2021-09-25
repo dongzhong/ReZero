@@ -20,6 +20,7 @@
   [self.label sizeToFit];
 
   self.rezeroView = [ReZeroView new];
+  [self.view addSubview:self.rezeroView];
 }
 
 

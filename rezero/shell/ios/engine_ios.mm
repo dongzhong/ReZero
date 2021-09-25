@@ -20,5 +20,13 @@ EngineIos::EngineIos() = default;
 
 EngineIos::~EngineIos() = default;
 
+void EngineIos::Resume() {
+  platform_view_->Resume();
+}
+
+void EngineIos::Pause() {
+  platform_view_->Pause();
+}
+
 } // namespace shell
 } // namespace rezero
