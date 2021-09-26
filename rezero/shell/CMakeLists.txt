@@ -1,15 +1,19 @@
 if(ANDROID)
     set(REZERO_SHELL_PLATFORM_SPECIFIC_HEADER
+        shell/android/context_manager.h
+        shell/android/context_manager_gl.h
         shell/android/engine_android.h
+        shell/android/native_window_android.h
         shell/android/platform_view_android.h
-        shell/android/surface/native_window.h
         shell/android/vsync_waiter_android.h
     )
     set(REZERO_SHELL_PLATFORM_SPECIFIC_SRC
+        shell/android/context_manager.cc
+        shell/android/context_manager_gl.cc
         shell/android/engine_android.cc
         shell/android/jni_on_load.cc
+        shell/android/native_window_android.cc
         shell/android/platform_view_android.cc
-        shell/android/surface/native_window.cc
         shell/android/vsync_waiter_android.cc
     )
 elseif(APPLE)

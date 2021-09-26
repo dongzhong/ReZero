@@ -20,5 +20,10 @@ PlatformViewIos::PlatformViewIos(
 
 PlatformViewIos::~PlatformViewIos() = default;
 
+bool PlatformViewIos::Present() {
+  // TODO:
+  return true;
+}
+
 } // namespace shell
 } // namespace rezero

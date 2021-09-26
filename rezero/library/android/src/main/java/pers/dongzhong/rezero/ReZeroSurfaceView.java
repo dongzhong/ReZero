@@ -32,7 +32,7 @@ class ReZeroSurfaceView extends SurfaceView implements RenderSurface {
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
       if (isAttachedToPlatformView) {
-        surfaceChange();
+        surfaceSizeChange(width, height);
       }
     }
 
@@ -103,13 +103,13 @@ class ReZeroSurfaceView extends SurfaceView implements RenderSurface {
     this.platformView.surfaceDestroy();
   }
 
-  private void surfaceChange() {
+  private void surfaceSizeChange(int width, int height) {
     if (this.platformView == null) {
       throw new IllegalStateException(
               "surfaceChange() should only be called when platformView is non-null.");
     }
 
-    this.platformView.surfaceChanged();
+    this.platformView.surfaceSizeChanged(width, height);
   }
 
   @Override

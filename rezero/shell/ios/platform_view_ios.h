@@ -18,6 +18,8 @@ class PlatformViewIos final : public PlatformView {
   ~PlatformViewIos() override;
 
  private:
+  bool Present() override;
+
   scoped_nsobject<CALayer> layer_;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(PlatformViewIos);
