@@ -30,6 +30,8 @@ if(ANDROID)
     target_link_libraries(rezero PUBLIC
         atomic
         android
+        EGL
+        GLESv2
         log
     )
 
@@ -41,6 +43,7 @@ elseif(APPLE)
         add_definitions("-DREZERO_PLATFORM_STR=\"iOS\"")
 
         target_link_libraries(rezero PUBLIC
+            "-framework OpenGLES"
             "-framework QuartzCore"
             "-framework UIKit"
         )

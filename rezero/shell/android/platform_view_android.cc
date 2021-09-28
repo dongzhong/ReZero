@@ -8,6 +8,7 @@
 #include "rezero/base/logging.h"
 #include "rezero/base/size.h"
 #include "rezero/base/waitable_event.h"
+#include "rezero/shell/android/context_manager_gl.h"
 #include "rezero/shell/android/engine_android.h"
 #include "rezero/shell/android/vsync_waiter_android.h"
 
@@ -46,9 +47,13 @@ void PlatformViewAndroid::JNISurfaceDestroy(JNIEnv* env, jobject java_caller, jl
   }
 }
 
-void PlatformViewAndroid::JNISurfaceChanged(JNIEnv* env, jobject java_caller, jlong native_ptr) {
+void PlatformViewAndroid::JNISurfaceSizeChanged(JNIEnv* env,
+                                                jobject java_caller,
+                                                jlong native_ptr,
+                                                jint width,
+                                                jint height) {
   if (auto* ptr = reinterpret_cast<std::shared_ptr<PlatformViewAndroid>*>(native_ptr)) {
-    (*ptr)->SurfaceChanged();
+    (*ptr)->SurfaceSizeChanged(width, height);
   }
 }
 
@@ -83,9 +88,9 @@ const JNINativeMethod PlatformViewAndroid::kJNIMethods[] = {
         .fnPtr = reinterpret_cast<void*>(&PlatformViewAndroid::JNISurfaceDestroy),
     },
     {
-        .name = "nativeSurfaceChanged",
-        .signature = "(J)V",
-        .fnPtr = reinterpret_cast<void*>(&PlatformViewAndroid::JNISurfaceChanged),
+        .name = "nativeSurfaceSizeChanged",
+        .signature = "(JII)V",
+        .fnPtr = reinterpret_cast<void*>(&PlatformViewAndroid::JNISurfaceSizeChanged),
     },
     {
         .name = "nativeSetVisibilityChanged",
@@ -110,10 +115,16 @@ PlatformViewAndroid::PlatformViewAndroid(
     const std::shared_ptr<TaskRunners>& task_runners,
     const jni::ScopedJavaGlobalRef<jobject>& java_context)
     : PlatformView(task_runners) {
+  // TODO: Maybe support Vulkan in future.
+  context_manager_ = std::make_unique<ContextManagerGL>();
+  context_manager_->Initialize();
+
   CreateVsyncWaiter(java_context);
 }
 
-PlatformViewAndroid::~PlatformViewAndroid() = default;
+PlatformViewAndroid::~PlatformViewAndroid() {
+  context_manager_->Release();
+}
 
 void PlatformViewAndroid::CreateVsyncWaiter(
     const jni::ScopedJavaGlobalRef<jobject>& java_context) {
@@ -127,7 +138,9 @@ void PlatformViewAndroid::SurfaceCreate(JNIEnv* env, jobject java_surface) {
 
   AutoResetWaitableEvent latch;
   task_runners_->GetMainTaskRunner()->PostTask([this, native_window, &latch]() {
-    native_window_ = std::make_shared<NativeWindow>(native_window);
+    is_context_initialized_ =
+        context_manager_->CreateOnscreenSurface(std::make_shared<NativeWindowAndroid>(native_window));
+    REZERO_DCHECK(is_context_initialized_ && context_manager_->IsOnscreenSurfaceValid());
 
     if (is_visible_) {
       Resume();
@@ -143,15 +156,17 @@ void PlatformViewAndroid::SurfaceDestroy() {
   task_runners_->GetMainTaskRunner()->PostTask([this, &latch]() {
     Pause();
 
-    native_window_ = nullptr;
+    is_context_initialized_ = false;
+    context_manager_->TeardownOnscreenSurface();
 
     latch.Signal();
   });
   latch.Wait();
 }
 
-void PlatformViewAndroid::SurfaceChanged() {
+void PlatformViewAndroid::SurfaceSizeChanged(int width, int height) {
   // TODO:
+  is_context_initialized_ = context_manager_->OnscreenSurfaceSizeChanged(width, height);
 }
 
 void PlatformViewAndroid::OnVisibilityChanged(bool visibility) {
@@ -159,7 +174,7 @@ void PlatformViewAndroid::OnVisibilityChanged(bool visibility) {
   task_runners_->GetMainTaskRunner()->PostTask(
       [this, visibility, &latch]() {
         is_visible_ = visibility;
-        if (is_visible_ && native_window_) {
+        if (is_visible_) {
           Resume();
         } else {
           Pause();
@@ -167,6 +182,13 @@ void PlatformViewAndroid::OnVisibilityChanged(bool visibility) {
         latch.Signal();
       });
   latch.Wait();
+}
+
+bool PlatformViewAndroid::Present() {
+  if (context_manager_->IsOnscreenSurfaceValid()) {
+    return context_manager_->Present();
+  }
+  return false;
 }
 
 } // namespace shell

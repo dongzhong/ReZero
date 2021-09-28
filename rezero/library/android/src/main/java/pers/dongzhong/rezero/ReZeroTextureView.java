@@ -33,7 +33,7 @@ class ReZeroTextureView extends TextureView implements RenderSurface {
     @Override
     public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surface, int width, int height) {
       if (isAttachedToPlatformView) {
-        surfaceChange();
+        surfaceSizeChange(width, height);
       }
     }
 
@@ -116,13 +116,13 @@ class ReZeroTextureView extends TextureView implements RenderSurface {
     }
   }
 
-  private void surfaceChange() {
+  private void surfaceSizeChange(int width, int height) {
     if (this.platformView == null) {
       throw new IllegalStateException(
           "surfaceChange() should only be called when platformView is non-null.");
     }
 
-    this.platformView.surfaceChanged();
+    this.platformView.surfaceSizeChanged(width, height);
   }
 
   @Override

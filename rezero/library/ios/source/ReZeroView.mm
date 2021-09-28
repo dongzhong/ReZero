@@ -44,6 +44,14 @@ using namespace rezero;
   [self setupNotificationObserver];
 }
 
+- (void)viewDidMoveToWindow {
+  if (self.window) {
+    engine_->Resume();
+  } else {
+    engine_->Pause();
+  }
+}
+
 + (Class)layerClass {
   return rezero::shell::GetCALayerClassForRenderingApi(
       rezero::shell::GetRenderingApiForProcess());

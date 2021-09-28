@@ -41,9 +41,9 @@ class PlatformView {
     }
   }
 
-  void surfaceChanged() {
+  void surfaceSizeChanged(int width, int height) {
     if (nativePtr != 0) {
-      nativeSurfaceChanged(nativePtr);
+      nativeSurfaceSizeChanged(nativePtr, width, height);
     }
   }
 
@@ -64,6 +64,6 @@ class PlatformView {
   private native void nativeDestroy(long nativePtr);
   private native void nativeSurfaceCreate(long nativePtr, Surface surface);
   private native void nativeSurfaceDestroy(long nativePtr);
-  private native void nativeSurfaceChanged(long nativePtr);
+  private native void nativeSurfaceSizeChanged(long nativePtr, int width, int height);
   private native void nativeSetVisibilityChanged(long nativePtr, boolean visibility);
 }

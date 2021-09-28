@@ -11,9 +11,6 @@ namespace shell {
 PlatformView::PlatformView(const std::shared_ptr<TaskRunners>& task_runners)
     : task_runners_(task_runners) {
   REZERO_DCHECK(task_runners_);
-
-  // TODO:
-  is_context_initialized_ = true;
 }
 
 PlatformView::~PlatformView() = default;
@@ -59,7 +56,16 @@ void PlatformView::AsyncAwaitVsync() {
 void PlatformView::OnVsync(TimePoint start_time, TimePoint end_time) {
   if (is_running_) {
     // TODO: other options.
+    UpdateAndDraw(start_time, end_time);
     AsyncAwaitVsync();
+  }
+}
+
+void PlatformView::UpdateAndDraw(TimePoint start_time, TimePoint end_time) {
+  // TODO: Update.
+
+  if (!Present()) {
+    REZERO_LOG(ERROR) << "Could not present the current result.";
   }
 }
 

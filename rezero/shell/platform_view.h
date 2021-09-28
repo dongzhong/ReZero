@@ -28,6 +28,9 @@ class PlatformView {
   void AsyncAwaitVsync();
   void OnVsync(TimePoint start_time, TimePoint end_time);
 
+  void UpdateAndDraw(TimePoint start_time, TimePoint end_time);
+  virtual bool Present() = 0;
+
   bool is_running_ = false;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(PlatformView);

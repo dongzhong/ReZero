@@ -28,5 +28,9 @@ void EngineIos::Pause() {
   platform_view_->Pause();
 }
 
+void EngineIos::UpdateDrawableSize() {
+  std::dynamic_pointer_cast<PlatformViewIos>(platform_view_)->UpdateStorageSizeIfNecessary();
+}
+
 } // namespace shell
 } // namespace rezero
