@@ -19,12 +19,16 @@ if(ANDROID)
 elseif(APPLE)
     if(IOS)
         set(REZERO_SHELL_PLATFORM_SPECIFIC_HEADER
+            shell/ios/context_manager_gl.h
+            shell/ios/context_manager.h
             shell/ios/engine_ios.h
             shell/ios/platform_view_ios.h
             shell/ios/rendering_api_selection.h
             shell/ios/vsync_waiter_ios.h
         )
         set(REZERO_SHELL_PLATFORM_SPECIFIC_SRC
+            shell/ios/context_manager_gl.mm
+            shell/ios/context_manager.mm
             shell/ios/engine_ios.mm
             shell/ios/platform_view_ios.mm
             shell/ios/rendering_api_selection.mm

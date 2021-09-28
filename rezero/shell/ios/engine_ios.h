@@ -21,6 +21,7 @@ class EngineIos final : public Engine {
 
   void Resume();
   void Pause();
+  void UpdateDrawableSize();
 
  private:
   REZERO_DISALLOW_COPY_AND_ASSIGN(EngineIos);

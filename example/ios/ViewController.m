@@ -19,7 +19,9 @@
   self.label.text = [ReZeroView getVersion];
   [self.label sizeToFit];
 
-  self.rezeroView = [ReZeroView new];
+  self.rezeroView = [[ReZeroView alloc] initWithFrame:self.view.bounds];
+  self.rezeroView.autoresizingMask =
+      (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
   [self.view addSubview:self.rezeroView];
 }
 
