@@ -5,6 +5,8 @@
 #include "rezero/base/logging.h"
 #include "rezero/base/waitable_event.h"
 
+#include "rezero/shell/opengl_test.h"
+
 namespace rezero {
 namespace shell {
 
@@ -63,6 +65,9 @@ void PlatformView::OnVsync(TimePoint start_time, TimePoint end_time) {
 
 void PlatformView::UpdateAndDraw(TimePoint start_time, TimePoint end_time) {
   // TODO: Update.
+
+  InitOpenGL();
+  DrawOpenGL(start_time, end_time);
 
   if (!Present()) {
     REZERO_LOG(ERROR) << "Could not present the current result.";

@@ -42,6 +42,9 @@ set(REZERO_SHELL_HEADER
     shell/engine.h
     shell/platform_view.h
     shell/vsync_waiter.h
+
+    # Test for gl base context
+    shell/opengl_test.h
 )
 
 set(REZERO_SHELL_SRC
@@ -49,4 +52,7 @@ set(REZERO_SHELL_SRC
     shell/engine.cc
     shell/platform_view.cc
     shell/vsync_waiter.cc
+
+    # Test for gl base context
+    shell/opengl_test.cc
 )
