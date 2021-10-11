@@ -57,6 +57,8 @@ elseif(APPLE)
             ${REZERO_SHELL_ARC_SOURCES}
         )
 
+        source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${REZERO_SRC})
+
         set_source_files_properties(${REZERO_SRC} PROPERTIES COMPILE_FLAGS -fno-objc-arc)
         set_source_files_properties(${REZERO_ARC_SOURCES} PROPERTIES COMPILE_FLAGS -fobjc-arc)
 
