@@ -16,8 +16,9 @@ Device::Device() {
 
 Device::~Device() = default;
 
-std::shared_ptr<Buffer> Device::MakeNewBuffer() {
-  return std::make_shared<Buffer>();
+std::shared_ptr<Buffer> Device::MakeNewBuffer(
+    std::size_t size, BufferType type, BufferUsage usage) {
+  return std::make_shared<Buffer>(size, type, usage);
 }
 
 std::shared_ptr<CommandBuffer> Device::MakeNewCommandBuffer() {

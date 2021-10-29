@@ -3,6 +3,8 @@
 #ifndef REZERO_GPU_TYPES_H_
 #define REZERO_GPU_TYPES_H_
 
+#include <stdint.h>
+
 namespace rezero {
 namespace gpu {
 
@@ -16,6 +18,16 @@ class CommandBuffer;
 class Program;
 class RenderPipeline;
 class Texture;
+
+enum class BufferType : uint32_t {
+  kVertex,
+  kIndex,
+};
+
+enum class BufferUsage : uint32_t {
+  kStatic,
+  kDynamic,
+};
 
 } // namespace gpu
 } // namespace rezero

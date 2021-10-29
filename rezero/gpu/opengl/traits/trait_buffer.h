@@ -13,6 +13,10 @@ namespace opengl {
 
 struct BufferGL {
   GLuint buffer_name_ = 0;
+
+  GLenum buffer_type_ = GL_ARRAY_BUFFER;
+  GLenum buffer_usage_ = GL_STATIC_DRAW;
+  std::size_t allocated_size_ = 0;
 };
 
 } // namespace opengl

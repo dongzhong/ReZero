@@ -24,7 +24,7 @@ class Device {
   Device();
   ~Device();
 
-  std::shared_ptr<Buffer> MakeNewBuffer();
+  std::shared_ptr<Buffer> MakeNewBuffer(std::size_t size, BufferType type, BufferUsage usage);
 
   std::shared_ptr<CommandBuffer> MakeNewCommandBuffer();
 

@@ -3,6 +3,8 @@
 #ifndef REZERO_GPU_BUFFER_H_
 #define REZERO_GPU_BUFFER_H_
 
+#include <cstddef>
+
 #include "rezero/gpu/defines.h"
 #include REZERO_GPU_BACKEND(buffer.h)
 
@@ -11,12 +13,20 @@ namespace gpu {
 
 class Buffer {
  public:
-  Buffer();
+  Buffer(std::size_t size, BufferType type, BufferUsage usage);
   ~Buffer();
+
+  void UpdateData(std::size_t size, const void* data);
+
+  void UpdateSubData(std::size_t offset, std::size_t size, const void* data);
 
  private:
   using InternalBuffer = ImplType<Buffer>::type;
   InternalBuffer buffer_;
+
+  std::size_t size_ = 0;
+  BufferType type_ = BufferType::kVertex;
+  BufferUsage usage_ = BufferUsage::kStatic;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(Buffer);
 };
