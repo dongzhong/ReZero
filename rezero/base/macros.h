@@ -26,4 +26,9 @@
   TypeName() = delete;                                  \
   REZERO_DISALLOW_COPY_ASSIGN_AND_MOVE(TypeName)
 
+#define REZERO_MACRO_TO_STRING(s) REZERO_MACRO_TO_STRING_INNTER(s)
+#define REZERO_MACRO_TO_STRING_INNTER(s) #s
+#define REZERO_MACRO_JOIN(Prefix, Suffix) REZERO_MACRO_JOIN_INTTER(Prefix, Suffix)
+#define REZERO_MACRO_JOIN_INTTER(Prefix, Suffix) Prefix##Suffix
+
 #endif // REZERO_BASE_MACROS_H_
