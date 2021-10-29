@@ -17,6 +17,7 @@ if(REZERO_GPU_BACKEND_OPENGL)
         gpu/opengl/traits/trait_render_pipeline.h
         gpu/opengl/traits/trait_texture.h
         gpu/opengl/includes.h
+        gpu/opengl/state_machine_gl.h
     )
 
     set(REZERO_GPU_SPECIFIC_SRC
@@ -24,6 +25,7 @@ if(REZERO_GPU_BACKEND_OPENGL)
         gpu/opengl/command_buffer.cc
         gpu/opengl/program.cc
         gpu/opengl/render_pipeline.cc
+        gpu/opengl/state_machine_gl.cc
         gpu/opengl/texture.cc
     )
 endif()

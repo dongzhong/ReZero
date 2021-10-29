@@ -44,6 +44,7 @@ set(REZERO_BASE_HEADER
     base/task_runners.h
     base/thread.h
     base/thread_local.h
+    base/thread_singleton.h
     base/time/time_delta.h
     base/time/time_point.h
     base/unique_fd.h

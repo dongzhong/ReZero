@@ -1,6 +1,7 @@
 // Created by Dong Zhong on 2021/10/28.
 
 #include "rezero/gpu/device.h"
+#include "rezero/gpu/opengl/state_machine_gl.h"
 
 namespace rezero {
 namespace gpu {
@@ -9,7 +10,9 @@ std::shared_ptr<Device> Device::Create() {
   return std::make_shared<Device>();
 }
 
-Device::Device() = default;
+Device::Device() {
+  StateMachineGL::EnsureInitializedForCurrentThread();
+}
 
 Device::~Device() = default;
 
