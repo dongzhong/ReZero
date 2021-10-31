@@ -37,8 +37,15 @@ std::shared_ptr<RenderPipeline> Device::MakeNewRenderPipeline() {
   return std::make_shared<RenderPipeline>();
 }
 
-std::shared_ptr<Texture> Device::MakeNewTexture() {
-  return std::make_shared<Texture>();
+std::shared_ptr<Texture> Device::MakeNewTexture(const TextureDescriptor& descriptor) {
+  switch (descriptor.texture_type_) {
+    case TextureType::kTexture2D:
+      return std::make_shared<Texture2D>(descriptor);
+    case TextureType::kTextureCube:
+      return std::make_shared<TextureCube>(descriptor);
+    default:
+      return nullptr;
+  }
 }
 
 } // namespace gpu

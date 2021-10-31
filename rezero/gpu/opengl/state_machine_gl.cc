@@ -35,5 +35,45 @@ void StateMachineGL::UnbindBuffer(GLenum buffer_type, GLuint buffer_name) {
   }
 }
 
+void StateMachineGL::BindTexture(int unit, GLenum texture_type, GLuint texture_name) {
+  if (active_texture_unit_ != unit) {
+    glActiveTexture(GL_TEXTURE0 + unit);
+    active_texture_unit_ = unit;
+  }
+
+  if (bound_textures_[active_texture_unit_][texture_type] != texture_name) {
+    glBindTexture(texture_type, texture_name);
+    bound_textures_[active_texture_unit_][texture_type] = texture_name;
+  }
+}
+
+void StateMachineGL::UnbindTexture(int unit, GLenum texture_type, GLuint texture_name) {
+  if (bound_textures_[unit][texture_type] != texture_name) {
+    return;
+  }
+
+  if (active_texture_unit_ != unit) {
+    glActiveTexture(GL_TEXTURE0 + unit);
+    active_texture_unit_ = unit;
+  }
+
+  glBindTexture(texture_type, 0);
+  bound_textures_[active_texture_unit_][texture_type] = 0;
+}
+
+void StateMachineGL::UnbindTextureForAllUnit(GLenum texture_type, GLuint texture_name) {
+  for (int i = 0; i < kMaxTextureUnits; ++i) {
+    if (bound_textures_[i][texture_type] == texture_name) {
+      if (active_texture_unit_ != i) {
+        glActiveTexture(GL_TEXTURE0 + i);
+        active_texture_unit_ = i;
+      }
+
+      glBindTexture(texture_type, 0);
+      bound_textures_[i][texture_type] = 0;
+    }
+  }
+}
+
 } // namespace gpu
 } // namespace rezero

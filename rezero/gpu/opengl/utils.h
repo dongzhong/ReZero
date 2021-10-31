@@ -21,9 +21,21 @@ class Utils {
 
   static GLenum ToGLBufferUsage(BufferUsage usage);
 
+  static GLenum ToGLTextureType(TextureType type);
+
+  static void ToGLTypes(PixelFormat pixel_format, GLint& internal_format, GLenum& format, GLenum& type);
+
+  static GLenum ToGLMagSamplerFilter(SamplerFilter sampler_filter);
+
+  static GLenum ToGLMinSamplerFilter(SamplerFilter sampler_filter);
+
+  static GLenum ToGLSamplerAddressMode(SamplerAddressMode sampler_address_mode);
+
  private:
   REZERO_DISALLOW_IMPLICIT_CONSTRUCTORS(Utils);
 };
+
+const static int kMaxTextureUnits = 8;
 
 } // namespace gpu
 } // namespace rezero

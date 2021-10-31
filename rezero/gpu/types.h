@@ -29,6 +29,59 @@ enum class BufferUsage : uint32_t {
   kDynamic,
 };
 
+enum class PixelFormat : uint32_t {
+  kRGBA8888,
+  kRGB888,
+};
+
+enum class TextureCubeFace : uint32_t {
+  kPositiveX = 0,
+  kNegativeX = 1,
+  kPositiveY = 2,
+  kNegativeY = 3,
+  kPositiveZ = 4,
+  kNegativeZ = 5,
+};
+
+enum class TextureType : uint32_t {
+  kTexture2D,
+  kTextureCube,
+};
+
+enum class TextureUsage : uint32_t {
+  kRead,
+  kWrite,
+  kRenderTarget,
+};
+
+enum class SamplerAddressMode : uint32_t {
+  kRepeat,
+  kMirroredRepeat,
+  kClampToEdge,
+};
+
+enum class SamplerFilter : uint32_t {
+  kLinear,
+  kLinearMipmapLeaner,
+  kLinearMipmapNearest,
+  kNearest,
+  kNearestMipmapLinear,
+  kNearestMipmapNearst,
+};
+
+struct SamplerDescriptor {
+  SamplerDescriptor& operator=(const SamplerDescriptor& other);
+
+  bool operator==(const SamplerDescriptor& other) const;
+  bool operator!=(const SamplerDescriptor& other) const;
+
+  SamplerFilter mag_filter = SamplerFilter::kLinear;
+  SamplerFilter min_filter = SamplerFilter::kLinear;
+
+  SamplerAddressMode s_address_mode = SamplerAddressMode::kRepeat;
+  SamplerAddressMode t_address_mode = SamplerAddressMode::kRepeat;
+};
+
 } // namespace gpu
 } // namespace rezero
 

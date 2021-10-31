@@ -34,7 +34,7 @@ class Device {
 
   std::shared_ptr<RenderPipeline> MakeNewRenderPipeline();
 
-  std::shared_ptr<Texture> MakeNewTexture();
+  std::shared_ptr<Texture> MakeNewTexture(const TextureDescriptor& descriptor);
 
  private:
   REZERO_DISALLOW_COPY_AND_ASSIGN(Device);

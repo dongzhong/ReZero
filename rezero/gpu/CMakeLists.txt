@@ -53,4 +53,5 @@ set(REZERO_GPU_SRC
     gpu/depth_stencil_state.cc
     gpu/program_state.cc
     gpu/render_pass_descriptor.cc
+    gpu/types.cc
 )

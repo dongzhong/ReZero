@@ -13,6 +13,20 @@ namespace opengl {
 
 struct TextureGL {
   GLuint texture_name_ = 0;
+
+  GLenum texture_type_ = GL_TEXTURE_2D;
+
+  GLint internal_format_ = GL_RGBA;
+  GLenum format_ = GL_RGBA;
+  GLenum data_type_ = GL_UNSIGNED_BYTE;
+
+  GLenum mag_filter = GL_LINEAR;
+  GLenum min_filter = GL_LINEAR;
+  GLenum s_wrap_mode = GL_REPEAT;
+  GLenum t_wrap_mode = GL_REPEAT;
+  bool sampler_has_changed = true;
+
+  void ApplySamplers();
 };
 
 } // namespace opengl
