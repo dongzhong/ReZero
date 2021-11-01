@@ -3,6 +3,8 @@
 #ifndef REZERO_GPU_OPENGL_TRAITS_TRAIT_PROGRAM_H_
 #define REZERO_GPU_OPENGL_TRAITS_TRAIT_PROGRAM_H_
 
+#include <unordered_map>
+
 #include "rezero/gpu/opengl/includes.h"
 #include "rezero/gpu/types.h"
 
@@ -13,6 +15,9 @@ namespace opengl {
 
 struct ProgramGL {
   GLuint program_name_ = 0;
+
+  std::unordered_map<std::string, UniformInfo> uniforms_;
+  std::unordered_map<std::string, AttributeInfo> attributes_;
 };
 
 } // namespace opengl

@@ -26,6 +26,9 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   void UnbindTexture(int unit, GLenum texture_type, GLuint texture_name);
   void UnbindTextureForAllUnit(GLenum texture_type, GLuint texture_name);
 
+  void UseProgram(GLuint program);
+  void UnuseProgram(GLuint program);
+
  private:
   GLuint bound_array_buffer_ = 0;
   GLuint bound_element_array_buffer_ = 0;
@@ -33,6 +36,8 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   // key: texture slot
   unsigned int active_texture_unit_ = 0;
   std::array<std::unordered_map<GLenum, GLuint>, kMaxTextureUnits> bound_textures_ = {};
+
+  GLuint used_program_ = 0;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(StateMachineGL);
 };

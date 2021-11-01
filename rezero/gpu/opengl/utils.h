@@ -21,6 +21,10 @@ class Utils {
 
   static GLenum ToGLBufferUsage(BufferUsage usage);
 
+  static GLsizei GetGLDataTypeSize(GLenum type);
+
+  static GLenum ToGLShaderStage(ShaderStage stage);
+
   static GLenum ToGLTextureType(TextureType type);
 
   static void ToGLTypes(PixelFormat pixel_format, GLint& internal_format, GLenum& format, GLenum& type);

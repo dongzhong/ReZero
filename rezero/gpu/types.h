@@ -18,6 +18,7 @@ class CommandBuffer;
 class Program;
 class RenderPipeline;
 class Texture;
+class Shader;
 
 enum class BufferType : uint32_t {
   kVertex,
@@ -32,6 +33,11 @@ enum class BufferUsage : uint32_t {
 enum class PixelFormat : uint32_t {
   kRGBA8888,
   kRGB888,
+};
+
+enum class ShaderStage : uint32_t {
+  kVertex,
+  kFragment,
 };
 
 enum class TextureCubeFace : uint32_t {
@@ -80,6 +86,24 @@ struct SamplerDescriptor {
 
   SamplerAddressMode s_address_mode = SamplerAddressMode::kRepeat;
   SamplerAddressMode t_address_mode = SamplerAddressMode::kRepeat;
+};
+
+struct UniformInfo {
+  int location[2] = { -1, -1 };
+
+  ShaderStage stage = ShaderStage::kVertex;
+  unsigned int type = 0;
+  int count = 0;
+  bool is_array = false;
+  unsigned int size = 0;
+};
+
+struct AttributeInfo {
+  int location = -1;
+
+  unsigned int type = 0;
+  int count = 0;
+  unsigned int size = 0;
 };
 
 } // namespace gpu

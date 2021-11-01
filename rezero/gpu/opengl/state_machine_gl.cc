@@ -75,5 +75,19 @@ void StateMachineGL::UnbindTextureForAllUnit(GLenum texture_type, GLuint texture
   }
 }
 
+void StateMachineGL::UseProgram(GLuint program) {
+  if (used_program_ != program) {
+    glUseProgram(program);
+    used_program_ = program;
+  }
+}
+
+void StateMachineGL::UnuseProgram(GLuint program) {
+  if (used_program_ == program) {
+    glUseProgram(0);
+    used_program_ = 0;
+  }
+}
+
 } // namespace gpu
 } // namespace rezero

@@ -15,6 +15,7 @@ if(REZERO_GPU_BACKEND_OPENGL)
         gpu/opengl/traits/trait_command_buffer.h
         gpu/opengl/traits/trait_program.h
         gpu/opengl/traits/trait_render_pipeline.h
+        gpu/opengl/traits/trait_shader.h
         gpu/opengl/traits/trait_texture.h
         gpu/opengl/includes.h
         gpu/opengl/state_machine_gl.h
@@ -26,6 +27,7 @@ if(REZERO_GPU_BACKEND_OPENGL)
         gpu/opengl/command_buffer.cc
         gpu/opengl/program.cc
         gpu/opengl/render_pipeline.cc
+        gpu/opengl/shader.cc
         gpu/opengl/state_machine_gl.cc
         gpu/opengl/texture.cc
         gpu/opengl/utils.cc
@@ -43,6 +45,7 @@ set(REZERO_GPU_HEADER
     gpu/program_state.h
     gpu/render_pass_descriptor.h
     gpu/render_pipeline.h
+    gpu/shader.h
     gpu/texture.h
     gpu/types.h
 )

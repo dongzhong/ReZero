@@ -30,13 +30,16 @@ class Device {
 
   std::shared_ptr<DepthStencilState> MakeNewDepthStencilState();
 
-  std::shared_ptr<Program> MakeNewProgram();
+  std::shared_ptr<Program> MakeNewProgram(const std::string& vertex_shader,
+                                          const std::string& fragment_shader);
 
   std::shared_ptr<RenderPipeline> MakeNewRenderPipeline();
 
   std::shared_ptr<Texture> MakeNewTexture(const TextureDescriptor& descriptor);
 
  private:
+  std::shared_ptr<Shader> MakeNewShader(ShaderStage stage, const std::string& source);
+
   REZERO_DISALLOW_COPY_AND_ASSIGN(Device);
 };
 
