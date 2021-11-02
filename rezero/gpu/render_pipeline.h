@@ -4,6 +4,7 @@
 #define REZERO_GPU_RENDER_PIPELINE_H_
 
 #include "rezero/gpu/defines.h"
+#include "rezero/gpu/program_state.h"
 #include REZERO_GPU_BACKEND(render_pipeline.h)
 
 namespace rezero {

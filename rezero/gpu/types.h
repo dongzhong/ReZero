@@ -4,6 +4,7 @@
 #define REZERO_GPU_TYPES_H_
 
 #include <stdint.h>
+#include <cstddef>
 
 namespace rezero {
 namespace gpu {
@@ -104,6 +105,18 @@ struct AttributeInfo {
   unsigned int type = 0;
   int count = 0;
   unsigned int size = 0;
+};
+
+enum class VertexFormat : uint32_t {
+  kFloat4,
+  kFloat3,
+  kFloat2,
+  kFloat,
+  kInt4,
+  kInt3,
+  kInt2,
+  kInt,
+  kUnsignedByte,
 };
 
 } // namespace gpu

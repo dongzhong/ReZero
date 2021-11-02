@@ -28,7 +28,9 @@ static bool CompileProgram(GLuint program_name, GLuint vertex_shader, GLuint fra
   return true;
 }
 
-static void ComputeUniformInfo(GLuint program_name, std::unordered_map<std::string, UniformInfo>& uniforms) {
+static void ComputeUniformInfo(GLuint program_name,
+                               std::unordered_map<std::string, UniformInfo>& uniforms,
+                               std::size_t& uniform_buffer_size) {
   if (program_name == 0) {
     return;
   }
@@ -43,6 +45,7 @@ static void ComputeUniformInfo(GLuint program_name, std::unordered_map<std::stri
   UniformInfo uniform;
   GLint length = 0;
   std::unique_ptr<GLchar[]> uniform_name = std::make_unique<GLchar[]>(MAX_UNIFORM_NAME_LENGTH);
+  std::size_t offset = 0;
   for (int i = 0; i < uniform_count; ++i) {
     glGetActiveUniform(program_name,
                        static_cast<GLuint>(i),
@@ -61,8 +64,9 @@ static void ComputeUniformInfo(GLuint program_name, std::unordered_map<std::stri
       }
     }
     uniform.location[0] = glGetUniformLocation(program_name, uniform_name.get());
-    // TODO: location[1] represent offset in uniform buffer.
     uniform.size = Utils::GetGLDataTypeSize(uniform.type);
+    uniform.location[1] = static_cast<int>(offset);
+    offset += uniform.size * uniform.count;
     uniforms[std::string(uniform_name.get())] = uniform;
   }
 #undef MAX_UNIFORM_NAME_LENGTH
@@ -126,7 +130,7 @@ Program::Program(const std::shared_ptr<Shader>& vertex_shader,
     return;
   }
 
-  ComputeUniformInfo(program_.program_name_, program_.uniforms_);
+  ComputeUniformInfo(program_.program_name_, program_.uniforms_, program_.uniform_buffer_size_);
   ComputeAttributeInfo(program_.program_name_, program_.attributes_);
 }
 

@@ -18,6 +18,8 @@ struct ProgramGL {
 
   std::unordered_map<std::string, UniformInfo> uniforms_;
   std::unordered_map<std::string, AttributeInfo> attributes_;
+
+  std::size_t uniform_buffer_size_ = 0;
 };
 
 } // namespace opengl

@@ -9,6 +9,8 @@
 namespace rezero {
 namespace gpu {
 
+class ProgramState;
+
 class Program {
  public:
   Program(const std::shared_ptr<Shader>& vertex_shader,
@@ -29,6 +31,8 @@ class Program {
   std::shared_ptr<Shader> fragment_shader_;
 
   bool is_valid_ = false;
+
+  friend class ProgramState;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(Program);
 };
