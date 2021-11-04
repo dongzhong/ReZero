@@ -3,8 +3,10 @@
 #ifndef REZERO_GPU_COMMAND_BUFFER_H_
 #define REZERO_GPU_COMMAND_BUFFER_H_
 
+#include <memory>
+
 #include "rezero/gpu/defines.h"
-#include "rezero/gpu/render_pass_descriptor.h"
+#include "rezero/gpu/render_pass.h"
 #include REZERO_GPU_BACKEND(command_buffer.h)
 
 namespace rezero {
@@ -14,6 +16,12 @@ class CommandBuffer {
  public:
   CommandBuffer();
   ~CommandBuffer();
+
+  void BeginFrame();
+
+  std::shared_ptr<RenderPass> BeginRenderPass(const RenderPassDescriptor& descriptor);
+
+  void EndFrame();
 
  private:
   using InternalCommandBuffer = ImplType<CommandBuffer>::type;

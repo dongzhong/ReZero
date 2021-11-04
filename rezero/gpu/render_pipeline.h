@@ -10,9 +10,14 @@
 namespace rezero {
 namespace gpu {
 
+struct RenderPipelineDescriptor {
+  std::shared_ptr<ProgramState> program_state;
+  // TODO: others
+};
+
 class RenderPipeline {
  public:
-  RenderPipeline();
+  RenderPipeline(const RenderPipelineDescriptor& descriptor);
   ~RenderPipeline();
 
  private:

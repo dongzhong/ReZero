@@ -36,8 +36,8 @@ std::shared_ptr<Program> Device::MakeNewProgram(
                                    std::make_shared<Shader>(ShaderStage::kFragment, fragment_shader));
 }
 
-std::shared_ptr<RenderPipeline> Device::MakeNewRenderPipeline() {
-  return std::make_shared<RenderPipeline>();
+std::shared_ptr<RenderPipeline> Device::MakeNewRenderPipeline(const RenderPipelineDescriptor& descriptor) {
+  return std::make_shared<RenderPipeline>(descriptor);
 }
 
 std::shared_ptr<Texture> Device::MakeNewTexture(const TextureDescriptor& descriptor) {

@@ -2,10 +2,15 @@
 
 #include "rezero/gpu/render_pipeline.h"
 
+#include "rezero/base/logging.h"
+
 namespace rezero {
 namespace gpu {
 
-RenderPipeline::RenderPipeline() = default;
+RenderPipeline::RenderPipeline(const RenderPipelineDescriptor& descriptor) {
+  REZERO_DCHECK(descriptor.program_state);
+  render_pipeline_.program_state_ = descriptor.program_state;
+}
 
 RenderPipeline::~RenderPipeline() = default;
 

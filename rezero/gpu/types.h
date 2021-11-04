@@ -17,6 +17,7 @@ struct ImplType {
 class Buffer;
 class CommandBuffer;
 class Program;
+class RenderPass;
 class RenderPipeline;
 class Texture;
 class Shader;
@@ -117,6 +118,19 @@ enum class VertexFormat : uint32_t {
   kInt2,
   kInt,
   kUnsignedByte,
+};
+
+enum class PrimitiveType : uint32_t {
+  kPoints,
+  kLines,
+  kLineLoop,
+  kTriangles,
+  kTriangleStrip,
+};
+
+enum class IndexFormat : uint32_t {
+  kUnsignedShort,
+  kUnsignedInt,
 };
 
 } // namespace gpu

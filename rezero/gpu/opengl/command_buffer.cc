@@ -7,9 +7,24 @@
 namespace rezero {
 namespace gpu {
 
-CommandBuffer::CommandBuffer() = default;
+CommandBuffer::CommandBuffer() {
+  // TODO:
+}
 
 CommandBuffer::~CommandBuffer() = default;
+
+void CommandBuffer::BeginFrame() {
+  // TODO:
+}
+
+std::shared_ptr<RenderPass> CommandBuffer::BeginRenderPass(
+    const RenderPassDescriptor& descriptor) {
+  return std::make_shared<RenderPass>(descriptor);
+}
+
+void CommandBuffer::EndFrame() {
+  // TODO:
+}
 
 } // namespace gpu
 } // namespace rezero

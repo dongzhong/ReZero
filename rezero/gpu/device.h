@@ -6,12 +6,7 @@
 #include <memory>
 
 #include "rezero/base/macros.h"
-#include "rezero/gpu/buffer.h"
 #include "rezero/gpu/command_buffer.h"
-#include "rezero/gpu/depth_stencil_state.h"
-#include "rezero/gpu/program.h"
-#include "rezero/gpu/program_state.h"
-#include "rezero/gpu/render_pipeline.h"
 #include "rezero/gpu/texture.h"
 
 namespace rezero {
@@ -33,7 +28,7 @@ class Device {
   std::shared_ptr<Program> MakeNewProgram(const std::string& vertex_shader,
                                           const std::string& fragment_shader);
 
-  std::shared_ptr<RenderPipeline> MakeNewRenderPipeline();
+  std::shared_ptr<RenderPipeline> MakeNewRenderPipeline(const RenderPipelineDescriptor& descriptor);
 
   std::shared_ptr<Texture> MakeNewTexture(const TextureDescriptor& descriptor);
 

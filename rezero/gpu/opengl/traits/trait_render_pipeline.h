@@ -13,6 +13,7 @@ namespace opengl {
 
 struct RenderPipelineGL {
   // TODO:
+  std::shared_ptr<ProgramState> program_state_ = nullptr;
 };
 
 } // namespace opengl
