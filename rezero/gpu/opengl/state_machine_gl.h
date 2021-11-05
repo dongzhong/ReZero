@@ -19,6 +19,12 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   StateMachineGL();
   ~StateMachineGL();
 
+  GLuint GetCurrentBoundFramebuffer();
+
+  void SetClearColorValue(const std::array<float, 4>& color_value);
+  void SetClearDepthValue(float depth_value);
+  void SetClearStencilValue(float stencil_value);
+
   void BindBuffer(GLenum buffer_type, GLuint buffer_name);
   void UnbindBuffer(GLenum buffer_type, GLuint buffer_name);
 
@@ -30,6 +36,10 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   void UnuseProgram(GLuint program);
 
  private:
+  std::array<float, 4> clear_color_value_ = { { 0.0f, 0.0f, 0.0f, 0.0f } };
+  float clear_depth_value_ = 1.0f;
+  float clear_stencil_value_ = 0.0f;
+
   GLuint bound_array_buffer_ = 0;
   GLuint bound_element_array_buffer_ = 0;
 

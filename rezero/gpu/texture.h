@@ -24,6 +24,8 @@ struct TextureDescriptor {
 
 class Texture {
  public:
+  using InternalTexture = ImplType<Texture>::type;
+
   Texture(const TextureDescriptor& descriptor);
   virtual ~Texture();
 
@@ -33,10 +35,11 @@ class Texture {
 
   void Apply(int unit);
 
+  const InternalTexture& GetInteralTexture() { return texture_; }
+
  protected:
   void UpdateTextureDescriptor(const TextureDescriptor& descriptor);
 
-  using InternalTexture = ImplType<Texture>::type;
   InternalTexture texture_;
 
   uint32_t width_ = 0;

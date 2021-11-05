@@ -4,6 +4,7 @@
 #define REZERO_GPU_OPENGL_TRAITS_TRAIT_RENDER_PASS_H_
 
 #include "rezero/gpu/opengl/includes.h"
+#include "rezero/gpu/render_pass_descriptor.h"
 #include "rezero/gpu/types.h"
 
 namespace rezero {
@@ -29,19 +30,22 @@ class RenderPassGL {
   void PerformDrawing();
 
   // Update attributes
-  void SetNeedClearColor(bool need_clear_color);
-  void SetNeedClearDepth(bool need_clear_depth);
-  void SetNeedClearStencil(bool need_clear_stencil);
+  void SetRenderPassDescriptor(const RenderPassDescriptor& descriptor);
 
  private:
   void PrepareDrawing();
 
+  void PrepareRenderPassDescriptor();
+
+  void AfterDraw();
+
   std::size_t render_pass_id_ = 0;
   EndRenderPassCallback callback_ = {};
 
-  bool need_clear_color_ = false;
-  bool need_clear_depth_ = false;
-  bool need_clear_stencil_ = false;
+  RenderPassDescriptor render_pass_descriptor_;
+
+  GLuint origin_framebuffer_ = 0;
+  GLuint curren_framebuffer_ = 0;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(RenderPassGL);
 };

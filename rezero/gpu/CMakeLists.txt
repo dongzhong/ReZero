@@ -46,6 +46,7 @@ set(REZERO_GPU_HEADER
     gpu/program.h
     gpu/program_state.h
     gpu/render_pass.h
+    gpu/render_pass_descriptor.h
     gpu/render_pipeline.h
     gpu/shader.h
     gpu/texture.h
@@ -58,6 +59,7 @@ set(REZERO_GPU_SRC
     gpu/device.cc
     gpu/depth_stencil_state.cc
     gpu/program_state.cc
+    gpu/render_pass_descriptor.cc
     gpu/types.cc
     gpu/vertex_layout.cc
 )

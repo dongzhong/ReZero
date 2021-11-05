@@ -3,27 +3,16 @@
 #ifndef REZERO_GPU_RENDER_PASS_H_
 #define REZERO_GPU_RENDER_PASS_H_
 
-#include <array>
-
 #include "rezero/base/macros.h"
 #include "rezero/gpu/buffer.h"
 #include "rezero/gpu/defines.h"
 #include "rezero/gpu/depth_stencil_state.h"
+#include "rezero/gpu/render_pass_descriptor.h"
 #include "rezero/gpu/render_pipeline.h"
 #include REZERO_GPU_BACKEND(render_pass.h)
 
 namespace rezero {
 namespace gpu {
-
-struct RenderPassDescriptor {
-  bool need_clear_color = false;
-  bool need_clear_depth = false;
-  bool need_clear_stencil = false;
-
-  std::array<float, 4> clear_color_value { { 0.0f, 0.0f, 0.0f, 0.0f } };
-  float clear_depth_value = 0.0f;
-  float clear_stencil_value = 0.0f;
-};
 
 class RenderPass {
  public:

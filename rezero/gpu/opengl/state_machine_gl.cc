@@ -9,6 +9,36 @@ StateMachineGL::StateMachineGL() = default;
 
 StateMachineGL::~StateMachineGL() = default;
 
+GLuint StateMachineGL::GetCurrentBoundFramebuffer() {
+  GLint bound_frame_buffer = 0;
+  glGetIntegerv(GL_FRAMEBUFFER_BINDING, &bound_frame_buffer);
+  return bound_frame_buffer;
+}
+
+void StateMachineGL::SetClearColorValue(const std::array<float, 4>& color_value) {
+  if (clear_color_value_ != color_value) {
+    clear_color_value_ = color_value;
+    glClearColor(clear_color_value_[0],
+                 clear_color_value_[1],
+                 clear_color_value_[2],
+                 clear_color_value_[3]);
+  }
+}
+
+void StateMachineGL::SetClearDepthValue(float depth_value) {
+  if (clear_depth_value_ != depth_value) {
+    clear_depth_value_ = depth_value;
+    glClearDepthf(clear_depth_value_);
+  }
+}
+
+void StateMachineGL::SetClearStencilValue(float stencil_value) {
+  if (clear_stencil_value_ != stencil_value) {
+    clear_stencil_value_ = stencil_value;
+    glClearStencil(clear_stencil_value_);
+  }
+}
+
 void StateMachineGL::BindBuffer(GLenum buffer_type, GLuint buffer_name) {
   if (buffer_type == GL_ARRAY_BUFFER) {
     if (buffer_name != bound_array_buffer_) {
