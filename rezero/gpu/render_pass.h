@@ -27,6 +27,8 @@ struct RenderPassDescriptor {
 
 class RenderPass {
  public:
+  using InternalRenderPass = ImplType<RenderPass>::type;
+
   RenderPass(const RenderPassDescriptor& descriptor);
   ~RenderPass();
 
@@ -52,9 +54,10 @@ class RenderPass {
 
   bool IsEnd() const { return is_end_; }
 
+  std::shared_ptr<InternalRenderPass> GetInternalRenderPass() const { return render_pass_; }
+
  private:
-  using InternalRenderPass = ImplType<RenderPass>::type;
-  InternalRenderPass render_pass_;
+  std::shared_ptr<InternalRenderPass> render_pass_;
 
   bool is_end_ = false;
 

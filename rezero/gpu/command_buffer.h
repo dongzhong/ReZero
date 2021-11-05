@@ -25,7 +25,7 @@ class CommandBuffer {
 
  private:
   using InternalCommandBuffer = ImplType<CommandBuffer>::type;
-  InternalCommandBuffer command_buffer_;
+  std::shared_ptr<InternalCommandBuffer> command_buffer_;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(CommandBuffer);
 };
