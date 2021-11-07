@@ -42,6 +42,14 @@ class RenderPassGL {
 
   void SetReferenceValue(unsigned int front_value, unsigned int back_value);
 
+  void SetViewport(int x, int y, unsigned int width, unsigned int height);
+
+  void SetScissor(int x, int y, unsigned int width, unsigned int height);
+
+  void SetCullMode(CullMode mode);
+
+  void SetWindingMode(WindingMode mode);
+
  private:
   void PrepareDrawing();
 
@@ -86,6 +94,12 @@ class RenderPassGL {
   unsigned int back_stencil_read_mask_ = -1;
   unsigned int back_stencil_write_mask_ = -1;
   unsigned int back_reference_value_ = 0;
+
+  Region viewport_;
+  Region scissor_;
+
+  CullMode cull_mode_ = CullMode::kBack;
+  WindingMode winding_mode_ = WindingMode::kCounterClockWise;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(RenderPassGL);
 };

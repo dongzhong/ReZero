@@ -233,5 +233,56 @@ void StateMachineGL::SetBackStencilMask(GLuint mask) {
   }
 }
 
+void StateMachineGL::SetViewport(int x,
+                                 int y,
+                                 unsigned int width,
+                                 unsigned int height) {
+  Region viewport { x, y, width, height };
+  if (viewport_ != viewport) {
+    viewport_ = viewport;
+    glViewport(static_cast<GLint>(viewport_.x),
+               static_cast<GLint>(viewport_.y),
+               static_cast<GLsizei>(viewport_.width),
+               static_cast<GLsizei>(viewport_.height));
+  }
+}
+
+void StateMachineGL::SetScissor(int x,
+                                int y,
+                                unsigned int width,
+                                unsigned int height) {
+  Region scissor { x, y, width, height };
+  if (scissor_ != scissor) {
+    scissor_ = scissor;
+    glScissor(static_cast<GLint>(scissor_.x),
+              static_cast<GLint>(scissor_.y),
+              static_cast<GLsizei>(scissor_.width),
+              static_cast<GLsizei>(scissor_.height));
+  }
+}
+
+void StateMachineGL::SetCullMode(bool enable, GLenum mode) {
+  if (enable_cull_face_ != enable) {
+    enable_cull_face_ = enable;
+    if (enable_cull_face_) {
+      glEnable(GL_CULL_FACE);
+    } else {
+      glDisable(GL_CULL_FACE);
+    }
+  }
+
+  if (enable_cull_face_ && cull_mode_ != mode) {
+    cull_mode_ = mode;
+    glCullFace(cull_mode_);
+  }
+}
+
+void StateMachineGL::SetWindingMode(GLenum mode) {
+  if (winding_mode_ != mode) {
+    winding_mode_ = mode;
+    glFrontFace(winding_mode_);
+  }
+}
+
 } // namespace gpu
 } // namespace rezero

@@ -88,11 +88,51 @@ void RenderPassGL::SetReferenceValue(unsigned int front_value, unsigned int back
   back_reference_value_ = back_value;
 }
 
+void RenderPassGL::SetViewport(int x, int y, unsigned int width, unsigned int height) {
+  viewport_.x = x;
+  viewport_.y = y;
+  viewport_.width = width;
+  viewport_.height = height;
+}
+
+void RenderPassGL::SetScissor(int x, int y, unsigned int width, unsigned int height) {
+  scissor_.x = x;
+  scissor_.y = y;
+  scissor_.width = width;
+  scissor_.height = height;
+}
+
+void RenderPassGL::SetCullMode(CullMode mode) {
+  cull_mode_ = mode;
+}
+
+void RenderPassGL::SetWindingMode(WindingMode mode) {
+  winding_mode_ = mode;
+}
+
 void RenderPassGL::PrepareDrawing() {
   // TODO:
   PrepareDepthStencil();
   PrepareRenderPassDescriptor();
   PrepareBuffers();
+
+  auto& state_machine = StateMachineGL::GetCurrent();
+  state_machine.SetViewport(viewport_.x,
+                            viewport_.y,
+                            viewport_.width,
+                            viewport_.height);
+
+  state_machine.SetScissor(scissor_.x,
+                           scissor_.y,
+                           scissor_.width,
+                           scissor_.height);
+
+  bool enable_cull_mode = false;
+  GLenum cull_mode = GL_BACK;
+  Utils::ToGLCullMode(cull_mode_, enable_cull_mode, cull_mode);
+  state_machine.SetCullMode(enable_cull_mode, cull_mode);
+
+  state_machine.SetWindingMode(Utils::ToGLWindingMode(winding_mode_));
 }
 
 void RenderPassGL::PrepareRenderPassDescriptor() {
@@ -265,7 +305,27 @@ void RenderPass::SetStencilReferenceValue(unsigned int front_value,
 }
 
 void RenderPass::SetViewport(int x, int y, unsigned int width, unsigned int height) {
-  // TODO:
+  REZERO_DCHECK(!is_end_) << "RenderPass is end.";
+
+  render_pass_->SetViewport(x, y, width, height);
+}
+
+void RenderPass::SetScissor(int x, int y, unsigned int width, unsigned int height) {
+  REZERO_DCHECK(!is_end_) << "RenderPass is end.";
+
+  render_pass_->SetScissor(x, y, width, height);
+}
+
+void RenderPass::SetCullMode(CullMode mode) {
+  REZERO_DCHECK(!is_end_) << "RenderPass is end.";
+
+  render_pass_->SetCullMode(mode);
+}
+
+void RenderPass::SetWinding(WindingMode mode) {
+  REZERO_DCHECK(!is_end_) << "RenderPass is end.";
+
+  render_pass_->SetWindingMode(mode);
 }
 
 void RenderPass::DrawArrays(PrimitiveType primitive_type, std::size_t start, std::size_t count) {

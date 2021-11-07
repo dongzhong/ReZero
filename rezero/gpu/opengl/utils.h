@@ -39,6 +39,10 @@ class Utils {
 
   static GLenum ToGLStencilOperation(StencilOperation stencil_operation);
 
+  static void ToGLCullMode(CullMode cull_mode, bool& enable, GLenum& gl_cull_mode);
+
+  static GLenum ToGLWindingMode(WindingMode mode);
+
  private:
   REZERO_DISALLOW_IMPLICIT_CONSTRUCTORS(Utils);
 };

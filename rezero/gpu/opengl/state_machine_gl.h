@@ -55,6 +55,14 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   void SetFrontStencilMask(GLuint mask);
   void SetBackStencilMask(GLuint mask);
 
+  void SetViewport(int x, int y, unsigned int width, unsigned int height);
+
+  void SetScissor(int x, int y, unsigned int width, unsigned int height);
+
+  void SetCullMode(bool enable, GLenum mode);
+
+  void SetWindingMode(GLenum mode);
+
  private:
   std::array<float, 4> clear_color_value_ = { { 0.0f, 0.0f, 0.0f, 0.0f } };
   float clear_depth_value_ = 1.0f;
@@ -91,6 +99,14 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   unsigned int back_stencil_read_mask_ = -1;
   unsigned int back_stencil_write_mask_ = -1;
   unsigned int back_stencil_reference_value_ = 0;
+
+  Region viewport_;
+  Region scissor_;
+
+  bool enable_cull_face_ = false;
+  GLenum cull_mode_ = GL_BACK;
+
+  GLenum winding_mode_ = GL_CCW;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(StateMachineGL);
 };

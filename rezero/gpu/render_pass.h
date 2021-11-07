@@ -35,9 +35,11 @@ class RenderPass {
 
   void SetViewport(int x, int y, unsigned int width, unsigned int height);
 
-  // TODO:
-  // virtual void setCullMode(CullMode mode);
-  // virtual void setWinding(Winding winding);
+  void SetScissor(int x, int y, unsigned int width, unsigned int height);
+
+  void SetCullMode(CullMode mode);
+
+  void SetWinding(WindingMode mode);
 
   void DrawArrays(PrimitiveType primitive_type, std::size_t start, std::size_t count);
 

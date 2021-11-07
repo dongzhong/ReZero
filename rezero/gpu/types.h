@@ -155,6 +155,49 @@ enum class StencilOperation : uint32_t {
   kDecrementWrap,
 };
 
+struct Region {
+  Region() = default;
+
+  Region(int x_, int y_, unsigned int width_, unsigned int height_)
+      : x(x_), y(y_), width(width_), height(height_) {}
+
+  Region& operator=(const Region& other) {
+    x = other.x;
+    y = other.y;
+    width = other.width;
+    height = other.height;
+
+    return *this;
+  }
+
+  bool operator==(const Region& other) const {
+    return (x == other.x) &&
+           (y == other.y) &&
+           (width == other.width) &&
+           (height == other.height);
+  }
+
+  bool operator!=(const Region& other) const {
+    return !operator==(other);
+  }
+
+  int x = 0;
+  int y = 0;
+  unsigned int width = 0;
+  unsigned int height = 0;
+};
+
+enum class CullMode : uint32_t {
+  kNone = 0x00000000,
+  kFront = 0x00000001,
+  kBack = 0x00000002,
+};
+
+enum class WindingMode : uint32_t {
+  kClockWise,
+  kCounterClockWise,
+};
+
 } // namespace gpu
 } // namespace rezero
 

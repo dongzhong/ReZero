@@ -262,5 +262,33 @@ GLenum Utils::ToGLStencilOperation(StencilOperation stencil_operation) {
   return res;
 }
 
+void Utils::ToGLCullMode(CullMode cull_mode, bool& enable, GLenum& gl_cull_mode) {
+  enable = static_cast<uint32_t>(cull_mode) != 0;
+  auto front = static_cast<uint32_t>(cull_mode) & static_cast<uint32_t>(CullMode::kFront);
+  auto back = static_cast<uint32_t>(cull_mode) & static_cast<uint32_t>(CullMode::kBack);
+  if (front != 0 && back != 0) {
+    gl_cull_mode = GL_FRONT_AND_BACK;
+  } else if (back != 0) {
+    gl_cull_mode = GL_BACK;
+  } else {
+    gl_cull_mode = GL_FRONT;
+  }
+}
+
+GLenum Utils::ToGLWindingMode(WindingMode mode) {
+  auto res = GL_CCW;
+  switch (mode) {
+    case WindingMode::kClockWise:
+      res = GL_CW;
+      break;
+    case WindingMode::kCounterClockWise:
+      res = GL_CCW;
+      break;
+    default:
+      break;
+  }
+  return res;
+}
+
 } // namespace gpu
 } // namespace rezero
