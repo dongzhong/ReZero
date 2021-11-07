@@ -196,5 +196,71 @@ GLenum Utils::ToGLSamplerAddressMode(SamplerAddressMode sampler_address_mode) {
   return result;
 }
 
+GLenum Utils::ToGLCompareFunction(CompareFunction compare_function) {
+  auto res = GL_LESS;
+  switch (compare_function) {
+    case CompareFunction::kNever:
+      res = GL_NEVER;
+      break;
+    case CompareFunction::kAlways:
+      res = GL_ALWAYS;
+      break;
+    case CompareFunction::kEqual:
+      res = GL_EQUAL;
+      break;
+    case CompareFunction::kNotEqual:
+      res = GL_NOTEQUAL;
+      break;
+    case CompareFunction::kLess:
+      res = GL_LESS;
+      break;
+    case CompareFunction::kLessEqual:
+      res = GL_LEQUAL;
+      break;
+    case CompareFunction::kGreater:
+      res = GL_GREATER;
+      break;
+    case CompareFunction::kGreaterEqual:
+      res = GL_GEQUAL;
+      break;
+    default:
+      break;
+  }
+  return res;
+}
+
+GLenum Utils::ToGLStencilOperation(StencilOperation stencil_operation) {
+  auto res = GL_KEEP;
+  switch (stencil_operation) {
+    case StencilOperation::kZero:
+      res = GL_ZERO;
+      break;
+    case StencilOperation::kKeep:
+      res = GL_KEEP;
+      break;
+    case StencilOperation::kReplace:
+      res = GL_REPLACE;
+      break;
+    case StencilOperation::kIncrementClamp:
+      res = GL_INCR;
+      break;
+    case StencilOperation::kDecrementClamp:
+      res = GL_DECR;
+      break;
+    case StencilOperation::kInvert:
+      res = GL_INVERT;
+      break;
+    case StencilOperation::kIncrementWrap:
+      res = GL_INCR_WRAP;
+      break;
+    case StencilOperation::kDecrementWrap:
+      res = GL_DECR_WRAP;
+      break;
+    default:
+      break;
+  }
+  return res;
+}
+
 } // namespace gpu
 } // namespace rezero

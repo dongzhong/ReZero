@@ -35,6 +35,10 @@ class Utils {
 
   static GLenum ToGLSamplerAddressMode(SamplerAddressMode sampler_address_mode);
 
+  static GLenum ToGLCompareFunction(CompareFunction compare_function);
+
+  static GLenum ToGLStencilOperation(StencilOperation stencil_operation);
+
  private:
   REZERO_DISALLOW_IMPLICIT_CONSTRUCTORS(Utils);
 };

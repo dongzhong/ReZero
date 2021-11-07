@@ -29,6 +29,10 @@ class RenderPass {
 
   void SetDepthStencilState(const std::shared_ptr<DepthStencilState>& depth_stencil_state);
 
+  void SetStencilReferenceValue(unsigned int value);
+
+  void SetStencilReferenceValue(unsigned int front_value, unsigned int back_value);
+
   void SetViewport(int x, int y, unsigned int width, unsigned int height);
 
   // TODO:

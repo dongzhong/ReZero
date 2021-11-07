@@ -13,6 +13,8 @@ namespace gpu {
 
 class Buffer {
  public:
+  using InternalBuffer = ImplType<Buffer>::type;
+
   Buffer(std::size_t size, BufferType type, BufferUsage usage);
   ~Buffer();
 
@@ -20,8 +22,11 @@ class Buffer {
 
   void UpdateSubData(std::size_t offset, std::size_t size, const void* data);
 
+  const InternalBuffer& GetInterlnalBuffer() const { return buffer_; }
+
+  BufferType GetBufferType() const { return type_; }
+
  private:
-  using InternalBuffer = ImplType<Buffer>::type;
   InternalBuffer buffer_;
 
   std::size_t size_ = 0;

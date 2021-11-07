@@ -133,6 +133,28 @@ enum class IndexFormat : uint32_t {
   kUnsignedInt,
 };
 
+enum class CompareFunction : uint32_t {
+  kNever,
+  kAlways,
+  kEqual,
+  kNotEqual,
+  kLess,
+  kLessEqual,
+  kGreater,
+  kGreaterEqual,
+};
+
+enum class StencilOperation : uint32_t {
+  kZero,
+  kKeep,
+  kReplace,
+  kIncrementClamp,
+  kDecrementClamp,
+  kInvert,
+  kIncrementWrap,
+  kDecrementWrap,
+};
+
 } // namespace gpu
 } // namespace rezero
 

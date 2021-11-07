@@ -35,6 +35,26 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   void UseProgram(GLuint program);
   void UnuseProgram(GLuint program);
 
+  void SetDepthTest(bool enabled);
+  void SetStencilTest(bool enabled);
+
+  void SetDepthCompareFunction(GLenum compare_function);
+  void SetDepthWriteMask(bool mask);
+
+  void SetFrontStencilFunction(GLenum function, GLint reference_value, GLuint mask);
+
+  void SetBackStencilFunction(GLenum function, GLint reference_value, GLuint mask);
+
+  void SetFrontStencilOperation(GLenum stencil_failed,
+                                GLenum depth_failed,
+                                GLenum pass);
+  void SetBackStencilOperation(GLenum stencil_failed,
+                               GLenum depth_failed,
+                               GLenum pass);
+
+  void SetFrontStencilMask(GLuint mask);
+  void SetBackStencilMask(GLuint mask);
+
  private:
   std::array<float, 4> clear_color_value_ = { { 0.0f, 0.0f, 0.0f, 0.0f } };
   float clear_depth_value_ = 1.0f;
@@ -48,6 +68,29 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   std::array<std::unordered_map<GLenum, GLuint>, kMaxTextureUnits> bound_textures_ = {};
 
   GLuint used_program_ = 0;
+
+  // Depth and stencil
+  bool enable_depth_test_ = false;
+  bool enable_stencil_test = false;
+
+  GLenum depth_compare_function_ = GL_LESS;
+  bool depth_write_enable_ = true;
+
+  GLenum front_stencil_compare_function_ = GL_ALWAYS;
+  GLenum front_stencil_failed_operation_ = GL_KEEP;
+  GLenum front_depth_failed_operation_ = GL_KEEP;
+  GLenum front_test_pass_operation_ = GL_KEEP;
+  unsigned int front_stencil_read_mask_ = -1;
+  unsigned int front_stencil_write_mask_ = -1;
+  unsigned int front_stencil_reference_value_ = 0;
+
+  GLenum back_stencil_compare_function_ = GL_ALWAYS;
+  GLenum back_stencil_failed_operation_ = GL_KEEP;
+  GLenum back_depth_failed_operation_ = GL_KEEP;
+  GLenum back_test_pass_operation_ = GL_KEEP;
+  unsigned int back_stencil_read_mask_ = -1;
+  unsigned int back_stencil_write_mask_ = -1;
+  unsigned int back_stencil_reference_value_ = 0;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(StateMachineGL);
 };

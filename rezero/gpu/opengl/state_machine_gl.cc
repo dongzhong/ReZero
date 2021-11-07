@@ -119,5 +119,119 @@ void StateMachineGL::UnuseProgram(GLuint program) {
   }
 }
 
+void StateMachineGL::SetDepthTest(bool enabled) {
+  if (enable_depth_test_ != enabled) {
+    enable_depth_test_ = enabled;
+    if (enable_depth_test_) {
+      glEnable(GL_DEPTH_TEST);
+    } else {
+      glDisable(GL_DEPTH_TEST);
+    }
+  }
+}
+
+void StateMachineGL::SetStencilTest(bool enabled) {
+  if (enable_stencil_test != enabled) {
+    enable_stencil_test = enabled;
+    if (enable_stencil_test) {
+      glEnable(GL_STENCIL_TEST);
+    } else {
+      glDisable(GL_STENCIL_TEST);
+    }
+  }
+}
+
+void StateMachineGL::SetDepthCompareFunction(GLenum compare_function) {
+  if (depth_compare_function_ != compare_function) {
+    depth_compare_function_ = compare_function;
+    glDepthFunc(depth_compare_function_);
+  }
+}
+
+void StateMachineGL::SetDepthWriteMask(bool mask) {
+  if (depth_write_enable_ != mask) {
+    depth_write_enable_ = mask;
+    glDepthMask(static_cast<GLboolean>(depth_write_enable_));
+  }
+}
+
+void StateMachineGL::SetFrontStencilFunction(GLenum function,
+                                             GLint reference_value,
+                                             GLuint mask) {
+  if (front_stencil_compare_function_ != function ||
+      front_stencil_reference_value_ != reference_value ||
+      front_stencil_read_mask_ != mask) {
+    front_stencil_compare_function_ = function;
+    front_stencil_reference_value_ = reference_value;
+    front_stencil_read_mask_ = mask;
+    glStencilFuncSeparate(GL_FRONT,
+                          front_stencil_compare_function_,
+                          front_stencil_reference_value_,
+                          front_stencil_read_mask_);
+  }
+}
+
+void StateMachineGL::SetBackStencilFunction(GLenum function,
+                                            GLint reference_value,
+                                            GLuint mask) {
+  if (back_stencil_compare_function_ != function ||
+      back_stencil_reference_value_ != reference_value ||
+      back_stencil_read_mask_ != mask) {
+    back_stencil_compare_function_ = function;
+    back_stencil_reference_value_ = reference_value;
+    back_stencil_read_mask_ = mask;
+    glStencilFuncSeparate(GL_FRONT,
+                          back_stencil_compare_function_,
+                          back_stencil_reference_value_,
+                          back_stencil_read_mask_);
+  }
+}
+
+void StateMachineGL::SetFrontStencilOperation(GLenum stencil_failed,
+                                              GLenum depth_failed,
+                                              GLenum pass) {
+  if (front_stencil_failed_operation_ != stencil_failed ||
+      front_depth_failed_operation_ != depth_failed ||
+      front_test_pass_operation_ != pass) {
+    front_stencil_failed_operation_ = stencil_failed;
+    front_depth_failed_operation_ = depth_failed;
+    front_test_pass_operation_ = pass;
+    glStencilOpSeparate(GL_FRONT,
+                        front_stencil_failed_operation_,
+                        front_depth_failed_operation_,
+                        front_test_pass_operation_);
+  }
+}
+
+void StateMachineGL::SetBackStencilOperation(GLenum stencil_failed,
+                                             GLenum depth_failed,
+                                             GLenum pass) {
+  if (back_stencil_failed_operation_ != stencil_failed ||
+      back_depth_failed_operation_ != depth_failed ||
+      back_test_pass_operation_ != pass) {
+    back_stencil_failed_operation_ = stencil_failed;
+    back_depth_failed_operation_ = depth_failed;
+    back_test_pass_operation_ = pass;
+    glStencilOpSeparate(GL_BACK,
+                        back_stencil_failed_operation_,
+                        back_depth_failed_operation_,
+                        back_test_pass_operation_);
+  }
+}
+
+void StateMachineGL::SetFrontStencilMask(GLuint mask) {
+  if (front_stencil_write_mask_ != mask) {
+    front_stencil_write_mask_ = mask;
+    glStencilMaskSeparate(GL_FRONT, front_stencil_write_mask_);
+  }
+}
+
+void StateMachineGL::SetBackStencilMask(GLuint mask) {
+  if (back_stencil_write_mask_ != mask) {
+    back_stencil_write_mask_ = mask;
+    glStencilMaskSeparate(GL_BACK, back_stencil_write_mask_);
+  }
+}
+
 } // namespace gpu
 } // namespace rezero

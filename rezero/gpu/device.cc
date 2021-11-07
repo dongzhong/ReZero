@@ -25,8 +25,9 @@ std::shared_ptr<CommandBuffer> Device::MakeNewCommandBuffer() {
   return std::make_shared<CommandBuffer>();
 }
 
-std::shared_ptr<DepthStencilState> Device::MakeNewDepthStencilState() {
-  return std::make_shared<DepthStencilState>();
+std::shared_ptr<DepthStencilState> Device::MakeNewDepthStencilState(
+    const DepthStencilDescriptor& descriptor) {
+  return std::make_shared<DepthStencilState>(descriptor);
 }
 
 std::shared_ptr<Program> Device::MakeNewProgram(

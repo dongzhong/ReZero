@@ -23,7 +23,7 @@ class Device {
 
   std::shared_ptr<CommandBuffer> MakeNewCommandBuffer();
 
-  std::shared_ptr<DepthStencilState> MakeNewDepthStencilState();
+  std::shared_ptr<DepthStencilState> MakeNewDepthStencilState(const DepthStencilDescriptor& descriptor);
 
   std::shared_ptr<Program> MakeNewProgram(const std::string& vertex_shader,
                                           const std::string& fragment_shader);

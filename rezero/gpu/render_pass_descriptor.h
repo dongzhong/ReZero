@@ -11,6 +11,9 @@ namespace rezero {
 namespace gpu {
 
 struct RenderPassDescriptor {
+  RenderPassDescriptor();
+  RenderPassDescriptor(const RenderPassDescriptor& other);
+
   RenderPassDescriptor& operator=(const RenderPassDescriptor& other);
 
   bool need_clear_color = false;
@@ -20,10 +23,6 @@ struct RenderPassDescriptor {
   std::array<float, 4> clear_color_value { { 0.0f, 0.0f, 0.0f, 0.0f } };
   float clear_depth_value = 0.0f;
   float clear_stencil_value = 0.0f;
-
-  bool need_color_attachment = false;
-  bool enable_depth_test = false;
-  bool enable_stencil_test = false;
 
   std::shared_ptr<Texture> color_attachment_texture_ = nullptr;
   std::shared_ptr<Texture> depth_attachment_texture_ = nullptr;
