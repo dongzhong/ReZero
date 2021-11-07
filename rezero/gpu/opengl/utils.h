@@ -43,6 +43,10 @@ class Utils {
 
   static GLenum ToGLWindingMode(WindingMode mode);
 
+  static GLenum ToGLPrimitiveType(PrimitiveType type);
+
+  static GLenum ToGLIndexFormat(IndexFormat format);
+
  private:
   REZERO_DISALLOW_IMPLICIT_CONSTRUCTORS(Utils);
 };

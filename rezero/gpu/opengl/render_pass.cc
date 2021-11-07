@@ -33,8 +33,25 @@ void RenderPassGL::EndRenderPass() {
 }
 
 void RenderPassGL::PerformDrawing() {
-  // TODO:
   PrepareDrawing();
+
+  if (vertex_or_index_count_ > 0) {
+    switch (draw_method_) {
+      case DrawMethod::kArrays:
+        glDrawArrays(Utils::ToGLPrimitiveType(primitive_type_),
+                     static_cast<GLint>(first_vertex_or_index_),
+                     static_cast<GLsizei>(vertex_or_index_count_));
+        break;
+      case DrawMethod::kElements:
+        glDrawElements(Utils::ToGLPrimitiveType(primitive_type_),
+                       static_cast<GLsizei>(vertex_or_index_count_),
+                       Utils::ToGLIndexFormat(index_format_),
+                       reinterpret_cast<const GLvoid*>(first_vertex_or_index_));
+        break;
+      default:
+        break;
+    }
+  }
 
   AfterDraw();
 }
@@ -108,6 +125,24 @@ void RenderPassGL::SetCullMode(CullMode mode) {
 
 void RenderPassGL::SetWindingMode(WindingMode mode) {
   winding_mode_ = mode;
+}
+
+void RenderPassGL::DrawArrays(PrimitiveType primitive_type, std::size_t start, std::size_t count) {
+  draw_method_ = DrawMethod::kArrays;
+  primitive_type_ = primitive_type;
+  first_vertex_or_index_ = start;
+  vertex_or_index_count_ = count;
+}
+
+void RenderPassGL::DrawElements(PrimitiveType primitive_type,
+                                IndexFormat index_format,
+                                std::size_t offset,
+                                std::size_t count) {
+  draw_method_ = DrawMethod::kElements;
+  primitive_type_ = primitive_type;
+  first_vertex_or_index_ = offset;
+  vertex_or_index_count_ = count;
+  index_format_ = index_format;
 }
 
 void RenderPassGL::PrepareDrawing() {
@@ -329,14 +364,21 @@ void RenderPass::SetWinding(WindingMode mode) {
 }
 
 void RenderPass::DrawArrays(PrimitiveType primitive_type, std::size_t start, std::size_t count) {
-  // TODO:
+  REZERO_DCHECK(!is_end_) << "RenderPass is end.";
+
+  render_pass_->DrawArrays(primitive_type, start, count);
 }
 
 void RenderPass::DrawElements(PrimitiveType primitive_type,
                               IndexFormat index_format,
                               std::size_t offset,
                               std::size_t count) {
-  // TODO:
+  REZERO_DCHECK(!is_end_) << "RenderPass is end.";
+
+  render_pass_->DrawElements(primitive_type,
+                             index_format,
+                             offset,
+                             count);
 }
 
 void RenderPass::EndRenderPass() {

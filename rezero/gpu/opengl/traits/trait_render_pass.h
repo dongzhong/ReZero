@@ -14,6 +14,11 @@ namespace opengl {
 
 using EndRenderPassCallback = std::function<void(std::size_t)>;
 
+enum class DrawMethod : uint32_t {
+  kArrays,
+  kElements,
+};
+
 class RenderPassGL {
  public:
   RenderPassGL();
@@ -49,6 +54,13 @@ class RenderPassGL {
   void SetCullMode(CullMode mode);
 
   void SetWindingMode(WindingMode mode);
+
+  void DrawArrays(PrimitiveType primitive_type, std::size_t start, std::size_t count);
+
+  void DrawElements(PrimitiveType primitive_type,
+                    IndexFormat index_format,
+                    std::size_t offset,
+                    std::size_t count);
 
  private:
   void PrepareDrawing();
@@ -100,6 +112,12 @@ class RenderPassGL {
 
   CullMode cull_mode_ = CullMode::kBack;
   WindingMode winding_mode_ = WindingMode::kCounterClockWise;
+
+  DrawMethod draw_method_ = DrawMethod::kArrays;
+  PrimitiveType primitive_type_ = PrimitiveType::kTriangles;
+  std::size_t first_vertex_or_index_ = 0;
+  std::size_t vertex_or_index_count_ = 0;
+  IndexFormat index_format_ = IndexFormat::kUnsignedShort;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(RenderPassGL);
 };

@@ -290,5 +290,44 @@ GLenum Utils::ToGLWindingMode(WindingMode mode) {
   return res;
 }
 
+GLenum Utils::ToGLPrimitiveType(PrimitiveType type) {
+  auto res = GL_TRIANGLES;
+  switch (type) {
+    case PrimitiveType::kPoints:
+      res = GL_POINTS;
+      break;
+    case PrimitiveType::kLines:
+      res = GL_LINES;
+      break;
+    case PrimitiveType::kLineLoop:
+      res = GL_LINE_LOOP;
+      break;
+    case PrimitiveType::kTriangles:
+      res = GL_TRIANGLES;
+      break;
+    case PrimitiveType::kTriangleStrip:
+      res = GL_TRIANGLE_STRIP;
+      break;
+    default:
+      break;
+  }
+  return res;
+}
+
+GLenum Utils::ToGLIndexFormat(IndexFormat format) {
+  auto res = GL_UNSIGNED_SHORT;
+  switch (format) {
+    case IndexFormat::kUnsignedShort:
+      res = GL_UNSIGNED_SHORT;
+      break;
+    case IndexFormat::kUnsignedInt:
+      res = GL_UNSIGNED_INT;
+      break;
+    default:
+      break;
+  }
+  return res;
+}
+
 } // namespace gpu
 } // namespace rezero
