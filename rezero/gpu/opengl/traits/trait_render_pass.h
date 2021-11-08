@@ -37,6 +37,10 @@ class RenderPassGL {
   // Update attributes
   void SetRenderPassDescriptor(const RenderPassDescriptor& descriptor);
 
+  void SetProgramState(const std::shared_ptr<ProgramState>& program_state);
+
+  void SetBlendDescriptor(const BlendDescriptor& descriptor);
+
   void SetVertexBuffer(const std::shared_ptr<Buffer>& vertex_buffer);
 
   void SetIndexBuffer(const std::shared_ptr<Buffer>& index_buffer);
@@ -46,6 +50,8 @@ class RenderPassGL {
   void SetReferenceValue(unsigned int value);
 
   void SetReferenceValue(unsigned int front_value, unsigned int back_value);
+
+  void SetBlendColor(float r, float g, float b, float a);
 
   void SetViewport(int x, int y, unsigned int width, unsigned int height);
 
@@ -67,6 +73,8 @@ class RenderPassGL {
 
   void PrepareRenderPassDescriptor();
 
+  void PrepareBlendMode();
+
   void PrepareBuffers();
 
   void PrepareDepthStencil();
@@ -77,6 +85,8 @@ class RenderPassGL {
   EndRenderPassCallback callback_ = {};
 
   RenderPassDescriptor render_pass_descriptor_;
+
+  std::shared_ptr<ProgramState> program_state_ = nullptr;
 
   GLuint origin_framebuffer_ = 0;
   GLuint curren_framebuffer_ = 0;
@@ -106,6 +116,26 @@ class RenderPassGL {
   unsigned int back_stencil_read_mask_ = -1;
   unsigned int back_stencil_write_mask_ = -1;
   unsigned int back_reference_value_ = 0;
+
+  // Blend
+  bool enable_blend_ = false;
+  GLenum alpha_blend_operation_ = GL_FUNC_ADD;
+  GLenum rgb_blend_operation_ = GL_FUNC_ADD;
+
+  GLenum src_alpha_blend_factor_ = GL_ONE;
+  GLenum src_rgb_blend_factor_ = GL_ONE;
+  GLenum dst_alpha_blend_factor_ = GL_ZERO;
+  GLenum dst_rgb_blend_factor_ = GL_ZERO;
+
+  bool color_mask_red_ = true;
+  bool color_mask_green_ = true;
+  bool color_mask_blue_ = true;
+  bool color_mask_alpha_ = true;
+
+  float blend_color_red_ = 0.0f;
+  float blend_color_green_ = 0.0f;
+  float blend_color_blue_ = 0.0f;
+  float blend_color_alpha_ = 0.0f;
 
   Region viewport_;
   Region scissor_;

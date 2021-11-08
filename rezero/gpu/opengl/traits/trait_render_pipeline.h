@@ -12,8 +12,9 @@ namespace gpu {
 namespace opengl {
 
 struct RenderPipelineGL {
-  // TODO:
   std::shared_ptr<ProgramState> program_state_ = nullptr;
+
+  BlendDescriptor blend_descriptor_;
 };
 
 } // namespace opengl

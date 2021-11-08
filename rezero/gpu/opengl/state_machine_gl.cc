@@ -119,6 +119,54 @@ void StateMachineGL::UnuseProgram(GLuint program) {
   }
 }
 
+void StateMachineGL::SetBlendEnable(bool enabled) {
+  if (enable_blend_ != enabled) {
+    enable_blend_ = enabled;
+    if (enable_blend_) {
+      glEnable(GL_BLEND);
+    } else {
+      glDisable(GL_BLEND);
+    }
+  }
+}
+
+void StateMachineGL::SetBlendEquation(GLenum rgb_operation, GLenum alpha_operation) {
+  if (rgb_blend_operation_ != rgb_operation ||
+      alpha_blend_operation_ != alpha_operation) {
+    rgb_blend_operation_ = rgb_operation;
+    alpha_blend_operation_ = alpha_operation;
+    if (rgb_blend_operation_ == alpha_blend_operation_) {
+      glBlendEquation(rgb_blend_operation_);
+    } else {
+      glBlendEquationSeparate(rgb_blend_operation_, alpha_blend_operation_);
+    }
+  }
+}
+
+void StateMachineGL::SetBlendFunc(GLenum src_rgb_factor,
+                                  GLenum src_alpha_factor,
+                                  GLenum dst_rgb_factor,
+                                  GLenum dst_alpha_factor) {
+  if (src_rgb_blend_factor_ != src_rgb_factor ||
+      src_alpha_blend_factor_ != src_alpha_factor ||
+      dst_rgb_blend_factor_ != dst_rgb_factor ||
+      dst_alpha_blend_factor_ != dst_alpha_factor) {
+    src_rgb_blend_factor_ = src_rgb_factor;
+    src_alpha_blend_factor_ = src_alpha_factor;
+    dst_rgb_blend_factor_ = dst_rgb_factor;
+    dst_alpha_blend_factor_ = dst_alpha_factor;
+    if (src_rgb_blend_factor_ == src_alpha_blend_factor_ &&
+        dst_rgb_blend_factor_ == dst_alpha_blend_factor_) {
+      glBlendFunc(src_rgb_blend_factor_, dst_rgb_blend_factor_);
+    } else {
+      glBlendFuncSeparate(src_rgb_blend_factor_,
+                          dst_rgb_blend_factor_,
+                          src_alpha_blend_factor_,
+                          dst_alpha_blend_factor_);
+    }
+  }
+}
+
 void StateMachineGL::SetDepthTest(bool enabled) {
   if (enable_depth_test_ != enabled) {
     enable_depth_test_ = enabled;
@@ -230,6 +278,22 @@ void StateMachineGL::SetBackStencilMask(GLuint mask) {
   if (back_stencil_write_mask_ != mask) {
     back_stencil_write_mask_ = mask;
     glStencilMaskSeparate(GL_BACK, back_stencil_write_mask_);
+  }
+}
+
+void StateMachineGL::SetBlendColor(float r, float g, float b, float a) {
+  if (blend_color_red_ != r ||
+      blend_color_green_ != g ||
+      blend_color_blue_ != b ||
+      blend_color_alpha_ != a) {
+    blend_color_red_ = r;
+    blend_color_green_ = g;
+    blend_color_blue_ = b;
+    blend_color_alpha_ = a;
+    glBlendColor(static_cast<GLfloat>(blend_color_red_),
+                 static_cast<GLfloat>(blend_color_green_),
+                 static_cast<GLfloat>(blend_color_blue_),
+                 static_cast<GLfloat>(blend_color_alpha_));
   }
 }
 

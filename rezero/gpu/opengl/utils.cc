@@ -329,5 +329,77 @@ GLenum Utils::ToGLIndexFormat(IndexFormat format) {
   return res;
 }
 
+GLenum Utils::ToGLBlendOperation(BlendOperation blend_operation) {
+  auto res = GL_FUNC_ADD;
+  switch (blend_operation) {
+    case BlendOperation::kAdd:
+      res = GL_FUNC_ADD;
+      break;
+    case BlendOperation::kSubtract:
+      res = GL_FUNC_SUBTRACT;
+      break;
+    case BlendOperation::kReverseSubtract:
+      res = GL_FUNC_REVERSE_SUBTRACT;
+      break;
+    default:
+      break;
+  }
+  return  res;
+}
+
+GLenum Utils::ToGLBlendFactor(BlendFactor blend_factor) {
+  auto res = GL_ONE;
+  switch (blend_factor) {
+    case BlendFactor::kZero:
+      res = GL_ZERO;
+      break;
+    case BlendFactor::kOne:
+      res = GL_ONE;
+      break;
+    case BlendFactor::kSrcColor:
+      res = GL_SRC_COLOR;
+      break;
+    case BlendFactor::kOneMinusSrcColor:
+      res = GL_ONE_MINUS_SRC_COLOR;
+      break;
+    case BlendFactor::kDstColor:
+      res = GL_DST_COLOR;
+      break;
+    case BlendFactor::kOneMinusDstColor:
+      res = GL_ONE_MINUS_DST_COLOR;
+      break;
+    case BlendFactor::kSrcAlpha:
+      res = GL_SRC_ALPHA;
+      break;
+    case BlendFactor::kOneMinusSrcAlpha:
+      res = GL_ONE_MINUS_SRC_ALPHA;
+      break;
+    case BlendFactor::kDstAlpha:
+      res = GL_DST_ALPHA;
+      break;
+    case BlendFactor::kOneMinusDstAlpha:
+      res = GL_ONE_MINUS_DST_ALPHA;
+      break;
+    case BlendFactor::kConstantColor:
+      res = GL_CONSTANT_COLOR;
+      break;
+    case BlendFactor::kOneMinusConstantColor:
+      res = GL_ONE_MINUS_CONSTANT_COLOR;
+      break;
+    case BlendFactor::kConstantAlpha:
+      res = GL_CONSTANT_ALPHA;
+      break;
+    case BlendFactor::kOneMinusConstantAlpha:
+      res = GL_ONE_MINUS_CONSTANT_ALPHA;
+      break;
+    case BlendFactor::kSrcAlphaSaturate:
+      res = GL_SRC_ALPHA_SATURATE;
+      break;
+    default:
+      break;
+  }
+  return res;
+}
+
 } // namespace gpu
 } // namespace rezero

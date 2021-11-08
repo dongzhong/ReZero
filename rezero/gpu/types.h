@@ -22,6 +22,59 @@ class RenderPipeline;
 class Texture;
 class Shader;
 
+enum class BlendOperation : uint32_t {
+  kAdd,
+  kSubtract,
+  kReverseSubtract,
+};
+
+enum class BlendFactor : uint32_t {
+  kZero,
+  kOne,
+  kSrcColor,
+  kOneMinusSrcColor,
+  kDstColor,
+  kOneMinusDstColor,
+  kSrcAlpha,
+  kOneMinusSrcAlpha,
+  kDstAlpha,
+  kOneMinusDstAlpha,
+  kConstantColor,
+  kOneMinusConstantColor,
+  kConstantAlpha,
+  kOneMinusConstantAlpha,
+  kSrcAlphaSaturate,
+};
+
+enum class ColorWriteMask : uint32_t {
+  kNone = 0x00000000,
+  kRed = 0x00000001,
+  kGreen = 0x00000002,
+  kBlue = 0x00000004,
+  kAlpha = 0x00000008,
+  kAll = 0x0000000F,
+};
+
+struct BlendDescriptor {
+  BlendDescriptor() = default;
+
+  BlendDescriptor(const BlendDescriptor& other);
+
+  BlendDescriptor& operator=(const BlendDescriptor& other);
+
+  bool blend_enable = false;
+
+  BlendOperation alpha_blend_operation = BlendOperation::kAdd;
+  BlendOperation rgb_blend_operation = BlendOperation::kAdd;
+
+  BlendFactor src_alpha_blend_factor = BlendFactor::kOne;
+  BlendFactor src_rgb_blend_factor = BlendFactor::kOne;
+  BlendFactor dst_alpha_blend_factor = BlendFactor::kZero;
+  BlendFactor dst_rgb_blend_factor = BlendFactor::kZero;
+
+  uint32_t color_mask = 0x0000000F;
+};
+
 enum class BufferType : uint32_t {
   kVertex,
   kIndex,

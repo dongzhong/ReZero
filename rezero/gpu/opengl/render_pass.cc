@@ -60,6 +60,25 @@ void RenderPassGL::SetRenderPassDescriptor(const RenderPassDescriptor& descripto
   render_pass_descriptor_ = descriptor;
 }
 
+void RenderPassGL::SetProgramState(const std::shared_ptr<ProgramState>& program_state) {
+  program_state_ = program_state;
+  REZERO_DCHECK(program_state_);
+}
+
+void RenderPassGL::SetBlendDescriptor(const BlendDescriptor& descriptor) {
+  enable_blend_ = descriptor.blend_enable;
+  alpha_blend_operation_ = Utils::ToGLBlendOperation(descriptor.alpha_blend_operation);
+  rgb_blend_operation_ = Utils::ToGLBlendOperation(descriptor.rgb_blend_operation);
+  src_alpha_blend_factor_ = Utils::ToGLBlendFactor(descriptor.src_alpha_blend_factor);
+  src_rgb_blend_factor_ = Utils::ToGLBlendFactor(descriptor.src_rgb_blend_factor);
+  dst_alpha_blend_factor_ = Utils::ToGLBlendFactor(descriptor.dst_alpha_blend_factor);
+  dst_rgb_blend_factor_ = Utils::ToGLBlendFactor(descriptor.dst_rgb_blend_factor);
+  color_mask_red_ = descriptor.color_mask & static_cast<uint32_t>(ColorWriteMask::kRed);
+  color_mask_green_ = descriptor.color_mask & static_cast<uint32_t>(ColorWriteMask::kGreen);
+  color_mask_blue_ = descriptor.color_mask & static_cast<uint32_t>(ColorWriteMask::kBlue);
+  color_mask_alpha_ = descriptor.color_mask & static_cast<uint32_t>(ColorWriteMask::kAlpha);
+}
+
 void RenderPassGL::SetVertexBuffer(const std::shared_ptr<Buffer>& vertex_buffer) {
   REZERO_DCHECK(vertex_buffer && (vertex_buffer->GetBufferType() == BufferType::kVertex))
       << "Vertex buffer is null or not vertex type.";
@@ -105,6 +124,13 @@ void RenderPassGL::SetReferenceValue(unsigned int front_value, unsigned int back
   back_reference_value_ = back_value;
 }
 
+void RenderPassGL::SetBlendColor(float r, float g, float b, float a) {
+  blend_color_red_ = r;
+  blend_color_green_ = g;
+  blend_color_blue_ = b;
+  blend_color_alpha_ = a;
+}
+
 void RenderPassGL::SetViewport(int x, int y, unsigned int width, unsigned int height) {
   viewport_.x = x;
   viewport_.y = y;
@@ -147,6 +173,7 @@ void RenderPassGL::DrawElements(PrimitiveType primitive_type,
 
 void RenderPassGL::PrepareDrawing() {
   // TODO:
+  PrepareBlendMode();
   PrepareDepthStencil();
   PrepareRenderPassDescriptor();
   PrepareBuffers();
@@ -243,6 +270,20 @@ void RenderPassGL::PrepareRenderPassDescriptor() {
   }
 }
 
+void RenderPassGL::PrepareBlendMode() {
+  auto& state_machine = StateMachineGL::GetCurrent();
+  state_machine.SetBlendEnable(enable_blend_);
+  state_machine.SetBlendColor(blend_color_red_,
+                              blend_color_green_,
+                              blend_color_blue_,
+                              blend_color_alpha_);
+  state_machine.SetBlendEquation(rgb_blend_operation_, alpha_blend_operation_);
+  state_machine.SetBlendFunc(src_rgb_blend_factor_,
+                             src_alpha_blend_factor_,
+                             dst_rgb_blend_factor_,
+                             dst_alpha_blend_factor_);
+}
+
 void RenderPassGL::PrepareBuffers() {
   REZERO_DCHECK(vertex_buffer_) << "No vertex buffer.";
   auto& state_machine = StateMachineGL::GetCurrent();
@@ -304,8 +345,10 @@ RenderPass::RenderPass(const RenderPassDescriptor& descriptor)
 
 RenderPass::~RenderPass() = default;
 
-void RenderPass::SetRenderPiple(const std::shared_ptr<RenderPipeline>& render_pipeline) {
-  // TODO:
+void RenderPass::SetRenderPipeline(const std::shared_ptr<RenderPipeline>& render_pipeline) {
+  REZERO_DCHECK(!is_end_) << "RenderPass is end.";
+ render_pass_->SetProgramState(render_pipeline->render_pipeline_.program_state_);
+ render_pass_->SetBlendDescriptor(render_pipeline->render_pipeline_.blend_descriptor_);
 }
 
 void RenderPass::SetVertexBuffer(const std::shared_ptr<Buffer>& buffer) {
@@ -337,6 +380,12 @@ void RenderPass::SetStencilReferenceValue(unsigned int front_value,
   REZERO_DCHECK(!is_end_) << "RenderPass is end.";
 
   render_pass_->SetReferenceValue(front_value, back_value);
+}
+
+void RenderPass::SetBlendColor(float r, float g, float b, float a) {
+  REZERO_DCHECK(!is_end_) << "RenderPass is end.";
+
+  render_pass_->SetBlendColor(r, g, b, a);
 }
 
 void RenderPass::SetViewport(int x, int y, unsigned int width, unsigned int height) {

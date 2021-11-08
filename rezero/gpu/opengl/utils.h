@@ -47,6 +47,10 @@ class Utils {
 
   static GLenum ToGLIndexFormat(IndexFormat format);
 
+  static GLenum ToGLBlendOperation(BlendOperation blend_operation);
+
+  static GLenum ToGLBlendFactor(BlendFactor blend_factor);
+
  private:
   REZERO_DISALLOW_IMPLICIT_CONSTRUCTORS(Utils);
 };

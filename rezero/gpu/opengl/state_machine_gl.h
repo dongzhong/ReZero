@@ -35,6 +35,14 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   void UseProgram(GLuint program);
   void UnuseProgram(GLuint program);
 
+  void SetBlendEnable(bool enabled);
+
+  void SetBlendEquation(GLenum rgb_operation, GLenum alpha_operation);
+  void SetBlendFunc(GLenum src_rgb_factor,
+                    GLenum src_alpha_factor,
+                    GLenum dst_rgb_factor,
+                    GLenum dst_alpha_factor);
+
   void SetDepthTest(bool enabled);
   void SetStencilTest(bool enabled);
 
@@ -54,6 +62,8 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
 
   void SetFrontStencilMask(GLuint mask);
   void SetBackStencilMask(GLuint mask);
+
+  void SetBlendColor(float r, float g, float b, float a);
 
   void SetViewport(int x, int y, unsigned int width, unsigned int height);
 
@@ -77,6 +87,21 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
 
   GLuint used_program_ = 0;
 
+  // Blend
+  bool enable_blend_ = false;
+  GLenum alpha_blend_operation_ = GL_FUNC_ADD;
+  GLenum rgb_blend_operation_ = GL_FUNC_ADD;
+
+  GLenum src_alpha_blend_factor_ = GL_ONE;
+  GLenum src_rgb_blend_factor_ = GL_ONE;
+  GLenum dst_alpha_blend_factor_ = GL_ZERO;
+  GLenum dst_rgb_blend_factor_ = GL_ZERO;
+
+  bool color_mask_red_ = true;
+  bool color_mask_green_ = true;
+  bool color_mask_blue_ = true;
+  bool color_mask_alpha_ = true;
+
   // Depth and stencil
   bool enable_depth_test_ = false;
   bool enable_stencil_test = false;
@@ -99,6 +124,11 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   unsigned int back_stencil_read_mask_ = -1;
   unsigned int back_stencil_write_mask_ = -1;
   unsigned int back_stencil_reference_value_ = 0;
+
+  float blend_color_red_ = 0.0f;
+  float blend_color_green_ = 0.0f;
+  float blend_color_blue_ = 0.0f;
+  float blend_color_alpha_ = 0.0f;
 
   Region viewport_;
   Region scissor_;

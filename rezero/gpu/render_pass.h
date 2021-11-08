@@ -21,7 +21,7 @@ class RenderPass {
   RenderPass(const RenderPassDescriptor& descriptor);
   ~RenderPass();
 
-  void SetRenderPiple(const std::shared_ptr<RenderPipeline>& render_pipeline);
+  void SetRenderPipeline(const std::shared_ptr<RenderPipeline>& render_pipeline);
 
   void SetVertexBuffer(const std::shared_ptr<Buffer>& buffer);
 
@@ -32,6 +32,8 @@ class RenderPass {
   void SetStencilReferenceValue(unsigned int value);
 
   void SetStencilReferenceValue(unsigned int front_value, unsigned int back_value);
+
+  void SetBlendColor(float r, float g, float b, float a);
 
   void SetViewport(int x, int y, unsigned int width, unsigned int height);
 
