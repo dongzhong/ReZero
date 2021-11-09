@@ -13,6 +13,8 @@ class ProgramState;
 
 class Program {
  public:
+  using InternalProgram = ImplType<Program>::type;
+
   Program(const std::shared_ptr<Shader>& vertex_shader,
           const std::shared_ptr<Shader>& fragment_shader);
   ~Program();
@@ -23,8 +25,12 @@ class Program {
 
   bool IsValid() const { return is_valid_; }
 
+  std::unordered_map<std::string, UniformInfo> GetUniforms() const { return program_.uniforms_; }
+  std::unordered_map<std::string, AttributeInfo> GetAttributes() const { return program_.attributes_; }
+
+  const InternalProgram& GetInternalProgram() const { return program_; }
+
  private:
-  using InternalProgram = ImplType<Program>::type;
   InternalProgram program_;
 
   std::shared_ptr<Shader> vertex_shader_;

@@ -37,6 +37,8 @@ class ProgramState {
 
   std::shared_ptr<VertexLayout> GetVertexLayout() const { return vertex_layout_; }
 
+  std::shared_ptr<Program> GetProgram() const { return program_; }
+
  private:
   void SetVertexUniform(int location, std::size_t offset, const void* data, std::size_t data_size);
 

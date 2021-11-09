@@ -51,6 +51,10 @@ class Utils {
 
   static GLenum ToGLBlendFactor(BlendFactor blend_factor);
 
+  static GLenum ToGLAttributeType(VertexFormat format);
+
+  static GLsizei GetAttributeSize(VertexFormat format);
+
  private:
   REZERO_DISALLOW_IMPLICIT_CONSTRUCTORS(Utils);
 };

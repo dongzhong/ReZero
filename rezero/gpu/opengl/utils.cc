@@ -401,5 +401,59 @@ GLenum Utils::ToGLBlendFactor(BlendFactor blend_factor) {
   return res;
 }
 
+GLenum Utils::ToGLAttributeType(VertexFormat format) {
+  GLenum res = GL_INT;
+
+  switch (format) {
+    case VertexFormat::kFloat4:
+    case VertexFormat::kFloat3:
+    case VertexFormat::kFloat2:
+    case VertexFormat::kFloat:
+      res = GL_FLOAT;
+      break;
+    case VertexFormat::kInt4:
+    case VertexFormat::kInt3:
+    case VertexFormat::kInt2:
+    case VertexFormat::kInt:
+      res = GL_INT;
+      break;
+    case VertexFormat::kUnsignedByte4:
+      res = GL_UNSIGNED_BYTE;
+      break;
+    default:
+      break;
+  }
+
+  return res;
+}
+
+GLsizei Utils::GetAttributeSize(VertexFormat format) {
+  GLsizei res = 0;
+
+  switch (format) {
+    case VertexFormat::kFloat4:
+    case VertexFormat::kInt4:
+    case VertexFormat::kUnsignedByte4:
+      res = 4;
+      break;
+    case VertexFormat::kFloat3:
+    case VertexFormat::kInt3:
+      res = 3;
+      break;
+    case VertexFormat::kFloat2:
+    case VertexFormat::kInt2:
+      res = 2;
+      break;
+    case VertexFormat::kFloat:
+    case VertexFormat::kInt:
+      res = 1;
+      break;
+    default:
+      break;
+  }
+
+  return res;
+}
+
 } // namespace gpu
 } // namespace rezero

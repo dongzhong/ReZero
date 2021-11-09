@@ -172,11 +172,11 @@ void RenderPassGL::DrawElements(PrimitiveType primitive_type,
 }
 
 void RenderPassGL::PrepareDrawing() {
-  // TODO:
   PrepareBlendMode();
   PrepareDepthStencil();
   PrepareRenderPassDescriptor();
   PrepareBuffers();
+  PrepareProgramState();
 
   auto& state_machine = StateMachineGL::GetCurrent();
   state_machine.SetViewport(viewport_.x,
@@ -268,6 +268,23 @@ void RenderPassGL::PrepareRenderPassDescriptor() {
   if (mask != 0) {
     glClear(mask);
   }
+}
+
+void RenderPassGL::PrepareProgramState() {
+  auto& state_machine = StateMachineGL::GetCurrent();
+  auto program = program_state_->GetProgram();
+  REZERO_DCHECK(program);
+
+  state_machine.UseProgram(program->GetInternalProgram().program_name_);
+
+  auto uniforms = program->GetUniforms();
+  for (auto&& uniform : uniforms) {
+    // TODO:
+  }
+
+  auto vertex_layout = program_state_->GetVertexLayout();
+  state_machine.UpdateVertexAttributes(vertex_layout->GetAttributes(),
+                                       vertex_layout->GetVertexStride());
 }
 
 void RenderPassGL::PrepareBlendMode() {

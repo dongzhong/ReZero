@@ -73,6 +73,8 @@ class RenderPassGL {
 
   void PrepareRenderPassDescriptor();
 
+  void PrepareProgramState();
+
   void PrepareBlendMode();
 
   void PrepareBuffers();

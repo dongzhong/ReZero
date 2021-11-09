@@ -119,6 +119,33 @@ void StateMachineGL::UnuseProgram(GLuint program) {
   }
 }
 
+void StateMachineGL::UpdateVertexAttributes(
+    const std::unordered_map<std::string, VertexLayout::Attribute>& attributes,
+    std::size_t stride) {
+  std::unordered_set<GLuint> enabled_attribs;
+  for (auto&& [name, attribute] : attributes) {
+    if (attribute.index < 0) {
+      continue;
+    }
+    enabled_attribs.insert(attribute.index);
+    glEnableVertexAttribArray(static_cast<GLuint>(attribute.index));
+    glVertexAttribPointer(static_cast<GLuint>(attribute.index),
+                          Utils::GetAttributeSize(attribute.format),
+                          Utils::ToGLAttributeType(attribute.format),
+                          attribute.need_normalize,
+                          static_cast<GLsizei>(stride),
+                          reinterpret_cast<const GLvoid*>(attribute.offset));
+  }
+
+  for (auto index = enabled_attribs_.begin();
+       index != enabled_attribs_.end();) {
+     if (enabled_attribs.count(*index) == 0) {
+       glDisableVertexAttribArray(*index);
+       index = enabled_attribs_.erase(index);
+     }
+  }
+}
+
 void StateMachineGL::SetBlendEnable(bool enabled) {
   if (enable_blend_ != enabled) {
     enable_blend_ = enabled;

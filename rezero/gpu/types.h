@@ -170,7 +170,7 @@ enum class VertexFormat : uint32_t {
   kInt3,
   kInt2,
   kInt,
-  kUnsignedByte,
+  kUnsignedByte4,
 };
 
 enum class PrimitiveType : uint32_t {

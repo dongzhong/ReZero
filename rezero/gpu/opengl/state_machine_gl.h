@@ -5,11 +5,13 @@
 
 #include <array>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 #include "rezero/base/thread_singleton.h"
 #include "rezero/gpu/opengl/includes.h"
 #include "rezero/gpu/opengl/utils.h"
+#include "rezero/gpu/vertex_layout.h"
 
 namespace rezero {
 namespace gpu {
@@ -34,6 +36,10 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
 
   void UseProgram(GLuint program);
   void UnuseProgram(GLuint program);
+
+  void UpdateVertexAttributes(
+      const std::unordered_map<std::string, VertexLayout::Attribute>& attributes,
+      std::size_t stride);
 
   void SetBlendEnable(bool enabled);
 
@@ -86,6 +92,8 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   std::array<std::unordered_map<GLenum, GLuint>, kMaxTextureUnits> bound_textures_ = {};
 
   GLuint used_program_ = 0;
+
+  std::unordered_set<GLuint> enabled_attribs_;
 
   // Blend
   bool enable_blend_ = false;
