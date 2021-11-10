@@ -278,8 +278,19 @@ void RenderPassGL::PrepareProgramState() {
   state_machine.UseProgram(program->GetInternalProgram().program_name_);
 
   auto uniforms = program->GetUniforms();
-  for (auto&& uniform : uniforms) {
-    // TODO:
+  for (auto&& [name, uniform] : uniforms) {
+    if (uniform.size != 0) {
+      state_machine.SetUniform(uniform.is_array,
+                               static_cast<GLenum>(uniform.type),
+                               static_cast<GLuint>(uniform.location[0]),
+                               static_cast<GLsizei>(uniform.count),
+                               program_state_->GetVertexUniformBufferPtr() + uniform.location[1]);
+    }
+  }
+  auto& textures = program_state_->GetVertexUniformTextures();
+  for (auto&& [slot, texture] : textures) {
+    texture.texture->Apply(texture.slot);
+    state_machine.SetUniformTexture(texture.location, texture.slot);
   }
 
   auto vertex_layout = program_state_->GetVertexLayout();

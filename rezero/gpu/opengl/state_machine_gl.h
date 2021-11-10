@@ -37,6 +37,9 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   void UseProgram(GLuint program);
   void UnuseProgram(GLuint program);
 
+  void SetUniform(bool is_array, GLenum type, GLuint location, GLsizei count, void* data);
+  void SetUniformTexture(GLuint location, GLuint slot);
+
   void UpdateVertexAttributes(
       const std::unordered_map<std::string, VertexLayout::Attribute>& attributes,
       std::size_t stride);

@@ -119,6 +119,105 @@ void StateMachineGL::UnuseProgram(GLuint program) {
   }
 }
 
+#define DEF_TO_INT(pointer, index)     (*((GLint*)(pointer) + index))
+#define DEF_TO_FLOAT(pointer, index)   (*((GLfloat*)(pointer) + index))
+void StateMachineGL::SetUniform(bool is_array, GLenum type, GLuint location, GLsizei count, void* data) {
+  // TODO:
+  switch (type) {
+    case GL_BOOL:
+    case GL_INT:
+      if (is_array) {
+        glUniform1iv(location, count, static_cast<const GLint*>(data));
+      } else {
+        glUniform1i(location, DEF_TO_INT(data, 0));
+      }
+      break;
+    case GL_BOOL_VEC2:
+    case GL_INT_VEC2:
+      if (is_array) {
+        glUniform2iv(location, count, static_cast<const GLint*>(data));
+      } else {
+        glUniform2i(location, DEF_TO_INT(data, 0), DEF_TO_INT(data, 1));
+      }
+      break;
+    case GL_BOOL_VEC3:
+    case GL_INT_VEC3:
+      if (is_array) {
+        glUniform3iv(location, count, static_cast<const GLint*>(data));
+      } else {
+        glUniform3i(location,
+                    DEF_TO_INT(data, 0),
+                    DEF_TO_INT(data, 1),
+                    DEF_TO_INT(data, 2));
+      }
+      break;
+    case GL_BOOL_VEC4:
+    case GL_INT_VEC4:
+      if (is_array) {
+        glUniform4iv(location, count, static_cast<const GLint*>(data));
+      } else {
+        glUniform4i(location,
+                    DEF_TO_INT(data, 0),
+                    DEF_TO_INT(data, 1),
+                    DEF_TO_INT(data, 2),
+                    DEF_TO_INT(data, 3));
+      }
+      break;
+    case GL_FLOAT:
+      if (is_array) {
+        glUniform1fv(location, count, static_cast<const GLfloat*>(data));
+      } else {
+        glUniform1f(location, DEF_TO_FLOAT(data, 0));
+      }
+      break;
+    case GL_FLOAT_VEC2:
+      if (is_array) {
+        glUniform2fv(location, count, static_cast<const GLfloat*>(data));
+      } else {
+        glUniform2f(location, DEF_TO_FLOAT(data, 0), DEF_TO_FLOAT(data, 1));
+      }
+      break;
+    case GL_FLOAT_VEC3:
+      if (is_array) {
+        glUniform3fv(location, count, static_cast<GLfloat*>(data));
+      } else {
+        glUniform3f(location,
+                    DEF_TO_FLOAT(data, 0),
+                    DEF_TO_FLOAT(data, 1),
+                    DEF_TO_FLOAT(data, 2));
+      }
+      break;
+    case GL_FLOAT_VEC4:
+      if (is_array) {
+        glUniform4fv(location, count, static_cast<const GLfloat*>(data));
+      } else {
+        glUniform4f(location,
+                    DEF_TO_FLOAT(data, 0),
+                    DEF_TO_FLOAT(data, 1),
+                    DEF_TO_FLOAT(data, 2),
+                    DEF_TO_FLOAT(data, 3));
+      }
+      break;
+    case GL_FLOAT_MAT2:
+      glUniformMatrix2fv(location, count, GL_FALSE, static_cast<const GLfloat*>(data));
+      break;
+    case GL_FLOAT_MAT3:
+      glUniformMatrix3fv(location, count, GL_FALSE, static_cast<const GLfloat*>(data));
+      break;
+    case GL_FLOAT_MAT4:
+      glUniformMatrix4fv(location, count, GL_FALSE, static_cast<const GLfloat*>(data));
+      break;
+    default:
+      break;
+  }
+}
+#undef DEF_TO_INT
+#undef DEF_TO_FLOAT
+
+void StateMachineGL::SetUniformTexture(GLuint location, GLuint slot) {
+  glUniform1i(location, slot);
+}
+
 void StateMachineGL::UpdateVertexAttributes(
     const std::unordered_map<std::string, VertexLayout::Attribute>& attributes,
     std::size_t stride) {

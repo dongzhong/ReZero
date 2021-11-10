@@ -39,6 +39,12 @@ class ProgramState {
 
   std::shared_ptr<Program> GetProgram() const { return program_; }
 
+  char* GetVertexUniformBufferPtr() const { return vertex_uniform_buffer_.get(); }
+
+  const std::unordered_map<int, TextureInfo>& GetVertexUniformTextures() const {
+    return vertex_uniform_textures_;
+  }
+
  private:
   void SetVertexUniform(int location, std::size_t offset, const void* data, std::size_t data_size);
 
