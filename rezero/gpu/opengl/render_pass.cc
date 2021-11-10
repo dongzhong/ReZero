@@ -138,7 +138,8 @@ void RenderPassGL::SetViewport(int x, int y, unsigned int width, unsigned int he
   viewport_.height = height;
 }
 
-void RenderPassGL::SetScissor(int x, int y, unsigned int width, unsigned int height) {
+void RenderPassGL::SetScissor(bool enable, int x, int y, unsigned int width, unsigned int height) {
+  scissor_enabled_ = enable;
   scissor_.x = x;
   scissor_.y = y;
   scissor_.width = width;
@@ -184,10 +185,13 @@ void RenderPassGL::PrepareDrawing() {
                             viewport_.width,
                             viewport_.height);
 
-  state_machine.SetScissor(scissor_.x,
-                           scissor_.y,
-                           scissor_.width,
-                           scissor_.height);
+  state_machine.SetScissorEnable(scissor_enabled_);
+  if (scissor_enabled_) {
+    state_machine.SetScissor(scissor_.x,
+                             scissor_.y,
+                             scissor_.width,
+                             scissor_.height);
+  }
 
   bool enable_cull_mode = false;
   GLenum cull_mode = GL_BACK;
@@ -422,10 +426,10 @@ void RenderPass::SetViewport(int x, int y, unsigned int width, unsigned int heig
   render_pass_->SetViewport(x, y, width, height);
 }
 
-void RenderPass::SetScissor(int x, int y, unsigned int width, unsigned int height) {
+void RenderPass::SetScissor(bool enable, int x, int y, unsigned int width, unsigned int height) {
   REZERO_DCHECK(!is_end_) << "RenderPass is end.";
 
-  render_pass_->SetScissor(x, y, width, height);
+  render_pass_->SetScissor(enable, x, y, width, height);
 }
 
 void RenderPass::SetCullMode(CullMode mode) {

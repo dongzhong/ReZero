@@ -55,7 +55,7 @@ class RenderPassGL {
 
   void SetViewport(int x, int y, unsigned int width, unsigned int height);
 
-  void SetScissor(int x, int y, unsigned int width, unsigned int height);
+  void SetScissor(bool enable, int x, int y, unsigned int width, unsigned int height);
 
   void SetCullMode(CullMode mode);
 
@@ -140,6 +140,8 @@ class RenderPassGL {
   float blend_color_alpha_ = 0.0f;
 
   Region viewport_;
+
+  bool scissor_enabled_ = false;
   Region scissor_;
 
   CullMode cull_mode_ = CullMode::kBack;

@@ -76,6 +76,7 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
 
   void SetViewport(int x, int y, unsigned int width, unsigned int height);
 
+  void SetScissorEnable(bool enable);
   void SetScissor(int x, int y, unsigned int width, unsigned int height);
 
   void SetCullMode(bool enable, GLenum mode);
@@ -142,6 +143,8 @@ class StateMachineGL : public ThreadSingleton<StateMachineGL> {
   float blend_color_alpha_ = 0.0f;
 
   Region viewport_;
+
+  bool scissor_enabled_ = false;
   Region scissor_;
 
   bool enable_cull_face_ = false;

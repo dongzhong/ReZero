@@ -437,6 +437,17 @@ void StateMachineGL::SetViewport(int x,
   }
 }
 
+void StateMachineGL::SetScissorEnable(bool enable) {
+  if (scissor_enabled_ != enable) {
+    scissor_enabled_ = enable;
+    if (scissor_enabled_) {
+      glEnable(GL_SCISSOR_TEST);
+    } else {
+      glDisable(GL_SCISSOR_TEST);
+    }
+  }
+}
+
 void StateMachineGL::SetScissor(int x,
                                 int y,
                                 unsigned int width,

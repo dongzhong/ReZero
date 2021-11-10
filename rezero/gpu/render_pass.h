@@ -37,7 +37,7 @@ class RenderPass {
 
   void SetViewport(int x, int y, unsigned int width, unsigned int height);
 
-  void SetScissor(int x, int y, unsigned int width, unsigned int height);
+  void SetScissor(bool enable, int x, int y, unsigned int width, unsigned int height);
 
   void SetCullMode(CullMode mode);
 
