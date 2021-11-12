@@ -8,7 +8,6 @@
 #include "rezero/base/logging.h"
 #include "rezero/base/size.h"
 #include "rezero/base/waitable_event.h"
-#include "rezero/shell/android/context_manager_gl.h"
 #include "rezero/shell/android/engine_android.h"
 #include "rezero/shell/android/vsync_waiter_android.h"
 
@@ -115,16 +114,10 @@ PlatformViewAndroid::PlatformViewAndroid(
     const std::shared_ptr<TaskRunners>& task_runners,
     const jni::ScopedJavaGlobalRef<jobject>& java_context)
     : PlatformView(task_runners) {
-  // TODO: Maybe support Vulkan in future.
-  context_manager_ = std::make_unique<ContextManagerGL>();
-  context_manager_->Initialize();
-
   CreateVsyncWaiter(java_context);
 }
 
-PlatformViewAndroid::~PlatformViewAndroid() {
-  context_manager_->Release();
-}
+PlatformViewAndroid::~PlatformViewAndroid() = default;
 
 void PlatformViewAndroid::CreateVsyncWaiter(
     const jni::ScopedJavaGlobalRef<jobject>& java_context) {
@@ -138,10 +131,6 @@ void PlatformViewAndroid::SurfaceCreate(JNIEnv* env, jobject java_surface) {
 
   AutoResetWaitableEvent latch;
   task_runners_->GetMainTaskRunner()->PostTask([this, native_window, &latch]() {
-    is_context_initialized_ =
-        context_manager_->CreateOnscreenSurface(std::make_shared<NativeWindowAndroid>(native_window));
-    REZERO_DCHECK(is_context_initialized_ && context_manager_->IsOnscreenSurfaceValid());
-
     if (is_visible_) {
       Resume();
     }
@@ -157,7 +146,6 @@ void PlatformViewAndroid::SurfaceDestroy() {
     Pause();
 
     is_context_initialized_ = false;
-    context_manager_->TeardownOnscreenSurface();
 
     latch.Signal();
   });
@@ -166,7 +154,6 @@ void PlatformViewAndroid::SurfaceDestroy() {
 
 void PlatformViewAndroid::SurfaceSizeChanged(int width, int height) {
   // TODO:
-  is_context_initialized_ = context_manager_->OnscreenSurfaceSizeChanged(width, height);
 }
 
 void PlatformViewAndroid::OnVisibilityChanged(bool visibility) {
@@ -185,9 +172,7 @@ void PlatformViewAndroid::OnVisibilityChanged(bool visibility) {
 }
 
 bool PlatformViewAndroid::Present() {
-  if (context_manager_->IsOnscreenSurfaceValid()) {
-    return context_manager_->Present();
-  }
+  // TODO:
   return false;
 }
 

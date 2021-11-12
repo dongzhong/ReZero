@@ -6,7 +6,6 @@
 
 #include "rezero/version.h"
 #include "rezero/shell/ios/engine_ios.h"
-#include "rezero/shell/ios/rendering_api_selection.h"
 
 #include "rezero/base/logging.h"
 
@@ -53,8 +52,7 @@ using namespace rezero;
 }
 
 + (Class)layerClass {
-  return rezero::shell::GetCALayerClassForRenderingApi(
-      rezero::shell::GetRenderingApiForProcess());
+  return [CAEAGLLayer class];
 }
 
 - (void)setupNotificationObserver {

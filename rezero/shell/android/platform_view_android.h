@@ -4,8 +4,6 @@
 #define REZERO_SHELL_ANDROID_PLATFORM_VIEW_ANDROID_H_
 
 #include "rezero/base/android/scoped_java_ref.h"
-#include "rezero/shell/android/context_manager.h"
-#include "rezero/shell/android/native_window_android.h"
 #include "rezero/shell/platform_view.h"
 
 namespace rezero {
@@ -46,7 +44,6 @@ class PlatformViewAndroid final : public PlatformView {
 
   bool Present() override;
 
-  std::unique_ptr<ContextManager> context_manager_;
   bool is_visible_ = false;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(PlatformViewAndroid);

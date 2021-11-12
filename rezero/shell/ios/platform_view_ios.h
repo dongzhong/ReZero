@@ -4,7 +4,6 @@
 #define REZERO_SHELL_IOS_PLATFORM_VIEW_IOS_H_
 
 #include "rezero/base/ios/scoped_nsobject.h"
-#include "rezero/shell/ios/context_manager.h"
 #include "rezero/shell/platform_view.h"
 
 #import <QuartzCore/CALayer.h>
@@ -24,7 +23,6 @@ class PlatformViewIos final : public PlatformView {
   bool Present() override;
 
   scoped_nsobject<CALayer> layer_;
-  std::unique_ptr<ContextManager> context_manager_;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(PlatformViewIos);
 };
