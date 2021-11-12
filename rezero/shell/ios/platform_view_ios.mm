@@ -26,9 +26,12 @@ bool PlatformViewIos::UpdateStorageSizeIfNecessary() {
   return true;
 }
 
-bool PlatformViewIos::Present() {
-  // Running in main thread.
-  return true;
+void PlatformViewIos::MakeSwapChainValid() {
+  if (swap_chain_ != nullptr && swap_chain_->IsValid()) {
+    context_->DestroySwapChain(swap_chain_);
+  }
+  swap_chain_ = context_->CreateSwapChain(layer_.get());
+  context_->MakeCurrent(swap_chain_, swap_chain_);
 }
 
 } // namespace shell

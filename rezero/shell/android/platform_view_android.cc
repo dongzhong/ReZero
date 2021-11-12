@@ -119,6 +119,14 @@ PlatformViewAndroid::PlatformViewAndroid(
 
 PlatformViewAndroid::~PlatformViewAndroid() = default;
 
+void PlatformViewAndroid::MakeSwapChainValid() {
+  if (swap_chain_ != nullptr && swap_chain_->IsValid()) {
+    context_->DestroySwapChain(swap_chain_);
+  }
+  swap_chain_ = context_->CreateSwapChain(native_window_);
+  context_->MakeCurrent(swap_chain_, swap_chain_);
+}
+
 void PlatformViewAndroid::CreateVsyncWaiter(
     const jni::ScopedJavaGlobalRef<jobject>& java_context) {
   vsync_waiter_ = VsyncWaiterAndroid::Create(task_runners_,
@@ -132,6 +140,7 @@ void PlatformViewAndroid::SurfaceCreate(JNIEnv* env, jobject java_surface) {
   AutoResetWaitableEvent latch;
   task_runners_->GetMainTaskRunner()->PostTask([this, native_window, &latch]() {
     if (is_visible_) {
+      native_window_ = native_window;
       Resume();
     }
 
@@ -144,8 +153,6 @@ void PlatformViewAndroid::SurfaceDestroy() {
   AutoResetWaitableEvent latch;
   task_runners_->GetMainTaskRunner()->PostTask([this, &latch]() {
     Pause();
-
-    is_context_initialized_ = false;
 
     latch.Signal();
   });
@@ -169,11 +176,6 @@ void PlatformViewAndroid::OnVisibilityChanged(bool visibility) {
         latch.Signal();
       });
   latch.Wait();
-}
-
-bool PlatformViewAndroid::Present() {
-  // TODO:
-  return false;
 }
 
 } // namespace shell

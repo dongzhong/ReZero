@@ -19,9 +19,10 @@ class PlatformViewIos final : public PlatformView {
 
   bool UpdateStorageSizeIfNecessary();
 
- private:
-  bool Present() override;
+ protected:
+  void MakeSwapChainValid() override;
 
+ private:
   scoped_nsobject<CALayer> layer_;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(PlatformViewIos);

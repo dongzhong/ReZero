@@ -3,6 +3,8 @@
 #ifndef REZERO_SHELL_ANDROID_PLATFORM_VIEW_ANDROID_H_
 #define REZERO_SHELL_ANDROID_PLATFORM_VIEW_ANDROID_H_
 
+#include <EGL/eglplatform.h>
+
 #include "rezero/base/android/scoped_java_ref.h"
 #include "rezero/shell/platform_view.h"
 
@@ -16,6 +18,9 @@ class PlatformViewAndroid final : public PlatformView {
   PlatformViewAndroid(const std::shared_ptr<TaskRunners>& task_runners,
                       const jni::ScopedJavaGlobalRef<jobject>& java_context);
   ~PlatformViewAndroid() override;
+
+ protected:
+  void MakeSwapChainValid() override;
 
  private:
   static jlong JNICreate(JNIEnv* env, jobject java_caller, jobject java_engine);
@@ -42,9 +47,9 @@ class PlatformViewAndroid final : public PlatformView {
 
   void OnVisibilityChanged(bool visibility);
 
-  bool Present() override;
-
   bool is_visible_ = false;
+
+  ANativeWindow* native_window_ = nullptr;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(PlatformViewAndroid);
 };

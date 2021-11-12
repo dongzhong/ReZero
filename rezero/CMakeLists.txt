@@ -46,6 +46,7 @@ elseif(APPLE)
         add_definitions("-DREZERO_PLATFORM_STR=\"iOS\"")
 
         target_link_libraries(rezero PUBLIC
+            "-framework CoreGraphics"
             "-framework OpenGLES"
             "-framework QuartzCore"
             "-framework UIKit"
