@@ -6,7 +6,6 @@
 
 #include "rezero/version.h"
 #include "rezero/shell/ios/engine_ios.h"
-#include "rezero/shell/ios/rendering_api_selection.h"
 
 #include "rezero/base/logging.h"
 
@@ -53,8 +52,28 @@ using namespace rezero;
 }
 
 + (Class)layerClass {
-  return rezero::shell::GetCALayerClassForRenderingApi(
-      rezero::shell::GetRenderingApiForProcess());
+  return [CAEAGLLayer class];
+}
+
+- (void)layoutSubviews {
+  UIScreen* current_screen = nil;
+  if (@available(iOS 13.0, *)) {
+    current_screen = self.window.windowScene.screen;
+  } else {
+    current_screen = self.window.screen;
+  }
+  CGFloat contents_scale = current_screen.nativeScale;
+  if (contents_scale <= 0) {
+    contents_scale = UIScreen.mainScreen.nativeScale;
+  }
+  contents_scale = contents_scale > 0.0f ? contents_scale : 1.0f;
+  self.layer.contentsScale = contents_scale;
+  self.layer.rasterizationScale = contents_scale;
+  self.layer.allowsGroupOpacity = NO;
+
+  [super layoutSubviews];
+
+  engine_->UpdateDrawableSize();
 }
 
 - (void)setupNotificationObserver {

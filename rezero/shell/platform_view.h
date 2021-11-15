@@ -5,10 +5,14 @@
 
 #include "rezero/base/macros.h"
 #include "rezero/base/task_runners.h"
+#include "rezero/gpu/context.h"
+#include "rezero/gpu/swap_chain.h"
 #include "rezero/shell/vsync_waiter.h"
 
 namespace rezero {
 namespace shell {
+
+using namespace gpu;
 
 class PlatformView {
  public:
@@ -19,17 +23,21 @@ class PlatformView {
   void Pause();
 
  protected:
+  virtual void MakeSwapChainValid() = 0;
+  void ReleaseSwapChain();
+
   std::shared_ptr<TaskRunners> task_runners_;
   std::shared_ptr<VsyncWaiter> vsync_waiter_;
 
-  bool is_context_initialized_ = false;
+  std::shared_ptr<Context> context_ = nullptr;
+  std::shared_ptr<SwapChain> swap_chain_ = nullptr;
 
  private:
   void AsyncAwaitVsync();
   void OnVsync(TimePoint start_time, TimePoint end_time);
 
   void UpdateAndDraw(TimePoint start_time, TimePoint end_time);
-  virtual bool Present() = 0;
+  bool Present();
 
   bool is_running_ = false;
 

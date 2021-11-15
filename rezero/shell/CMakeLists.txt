@@ -1,37 +1,25 @@
 if(ANDROID)
     set(REZERO_SHELL_PLATFORM_SPECIFIC_HEADER
-        shell/android/context_manager.h
-        shell/android/context_manager_gl.h
         shell/android/engine_android.h
-        shell/android/native_window_android.h
         shell/android/platform_view_android.h
         shell/android/vsync_waiter_android.h
     )
     set(REZERO_SHELL_PLATFORM_SPECIFIC_SRC
-        shell/android/context_manager.cc
-        shell/android/context_manager_gl.cc
         shell/android/engine_android.cc
         shell/android/jni_on_load.cc
-        shell/android/native_window_android.cc
         shell/android/platform_view_android.cc
         shell/android/vsync_waiter_android.cc
     )
 elseif(APPLE)
     if(IOS)
         set(REZERO_SHELL_PLATFORM_SPECIFIC_HEADER
-            shell/ios/context_manager_gl.h
-            shell/ios/context_manager.h
             shell/ios/engine_ios.h
             shell/ios/platform_view_ios.h
-            shell/ios/rendering_api_selection.h
             shell/ios/vsync_waiter_ios.h
         )
         set(REZERO_SHELL_PLATFORM_SPECIFIC_SRC
-            shell/ios/context_manager_gl.mm
-            shell/ios/context_manager.mm
             shell/ios/engine_ios.mm
             shell/ios/platform_view_ios.mm
-            shell/ios/rendering_api_selection.mm
             shell/ios/vsync_waiter_ios.mm
         )
     endif()
