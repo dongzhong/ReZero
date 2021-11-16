@@ -30,6 +30,8 @@ class ContextEGL final : public Context {
 
   bool Commit(const std::shared_ptr<SwapChain>& swap_chain) override;
 
+  std::shared_ptr<Device> CreateNewDevice() override;
+
  private:
   EGLBoolean MakeCurrent(EGLSurface draw_surface, EGLSurface read_surface);
 

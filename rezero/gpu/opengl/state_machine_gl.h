@@ -1,0 +1,30 @@
+// Created by Dong Zhong on 2021/11/15.
+
+#ifndef REZERO_GPU_OPENGL_STATE_MACHINE_GL_H_
+#define REZERO_GPU_OPENGL_STATE_MACHINE_GL_H_
+
+#include "rezero/base/thread_singleton.h"
+#include "rezero/gpu/opengl/includes_gl.h"
+
+namespace rezero {
+namespace gpu {
+
+class StateMachineGL final : public ThreadSingleton<StateMachineGL> {
+ public:
+  StateMachineGL();
+  ~StateMachineGL();
+
+  void BindBuffer(GLenum target, GLuint buffer_name);
+  void UnbindBuffer(GLenum target, GLuint buffer_name);
+
+ private:
+  GLuint bound_vertex_buffer_ = 0;
+  GLuint bound_index_buffer_ = 0;
+
+  REZERO_DISALLOW_COPY_AND_ASSIGN(StateMachineGL);
+};
+
+} // namespace gpu
+} // namespace rezero
+
+#endif // REZERO_GPU_OPENGL_STATE_MACHINE_GL_H_

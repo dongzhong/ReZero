@@ -28,6 +28,8 @@ class ContextEAGL final : public Context {
 
   bool Commit(const std::shared_ptr<SwapChain>& swap_chain) override;
 
+  std::shared_ptr<Device> CreateNewDevice() override;
+
  private:
   ContextEAGLImpl* impl_ = nullptr;
 

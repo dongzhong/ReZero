@@ -4,6 +4,7 @@
 
 #include "rezero/base/logging.h"
 #include "rezero/base/size.h"
+#include "rezero/gpu/opengl/device_gl.h"
 
 namespace rezero {
 namespace gpu {
@@ -258,6 +259,10 @@ bool ContextEGL::Commit(const std::shared_ptr<SwapChain>& swap_chain) {
     return success;
   }
   return false;
+}
+
+std::shared_ptr<Device> ContextEGL::CreateNewDevice() {
+  return std::make_shared<DeviceGL>();
 }
 
 EGLBoolean ContextEGL::MakeCurrent(EGLSurface draw_surface, EGLSurface read_surface) {

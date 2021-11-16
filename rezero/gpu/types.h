@@ -9,6 +9,8 @@ namespace gpu {
 class Context;
 class SwapChain;
 
+class Device;
+
 class Buffer;
 class Texture;
 class Pipeline;

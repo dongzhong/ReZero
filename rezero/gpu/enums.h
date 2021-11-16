@@ -13,6 +13,16 @@ enum class RenderingApi : uint32_t {
   kOpenGL,
 };
 
+enum class BufferType : uint32_t {
+  kVertex,
+  kIndex,
+};
+
+enum class BufferUsage : uint32_t {
+  kStatic,
+  kDynamic,
+};
+
 } // namespace gpu
 } // namespace rezero
 

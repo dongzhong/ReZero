@@ -34,6 +34,8 @@ class Context {
 
   bool IsInitialized() const { return initialized_; }
 
+  virtual std::shared_ptr<Device> CreateNewDevice() = 0;
+
  protected:
   bool initialized_ = false;
 

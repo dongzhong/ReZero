@@ -8,6 +8,7 @@
 
 #include "rezero/base/logging.h"
 #include "rezero/base/ios/scoped_nsobject.h"
+#include "rezero/gpu/opengl/device_gl.h"
 #include "rezero/gpu/opengl/swap_chain_eagl.h"
 
 namespace rezero {
@@ -114,6 +115,10 @@ bool ContextEAGL::Commit(const std::shared_ptr<SwapChain>& swap_chain) {
     return [impl_->context_ presentRenderbuffer:GL_RENDERBUFFER];
   }
   return true;
+}
+
+std::shared_ptr<Device> ContextEAGL::CreateNewDevice() {
+  return std::make_shared<DeviceGL>();
 }
 
 } // namespace gpu
