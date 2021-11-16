@@ -39,5 +39,66 @@ GLenum UtilsGL::ToGLBufferUsage(BufferUsage usage) {
   return res;
 }
 
+GLenum UtilsGL::ToGLShaderStage(ShaderStage stage) {
+  GLenum res = GL_VERTEX_SHADER;
+  switch (stage) {
+    case ShaderStage::kVertex:
+      res = GL_VERTEX_SHADER;
+      break;
+    case ShaderStage::kFragment:
+      res = GL_FRAGMENT_SHADER;
+      break;
+    default:
+      break;
+  }
+  return res;
+}
+
+std::size_t UtilsGL::GetGLDataTypeSize(GLenum type) {
+  std::size_t res = 0;
+  switch (type) {
+    case GL_BOOL:
+      res = sizeof(GLboolean);
+      break;
+    case GL_BOOL_VEC2:
+      res = sizeof(GLboolean) * 2;
+      break;
+    case GL_BOOL_VEC3:
+      res = sizeof(GLboolean) * 3;
+      break;
+    case GL_FLOAT:
+    case GL_INT:
+    case GL_BOOL_VEC4:
+      res = sizeof(GLfloat);
+      break;
+    case GL_FLOAT_VEC2:
+    case GL_INT_VEC2:
+      res = sizeof(GLfloat) * 2;
+      break;
+    case GL_FLOAT_VEC3:
+    case GL_INT_VEC3:
+      res = sizeof(GLfloat) * 3;
+      break;
+    case GL_FLOAT_VEC4:
+    case GL_INT_VEC4:
+    case GL_FLOAT_MAT2:
+      res = sizeof(GLfloat) * 4;
+      break;
+    case GL_FLOAT_MAT3:
+      res = sizeof(GLfloat) * 9;
+      break;
+    case GL_FLOAT_MAT4:
+      res = sizeof(GLfloat) * 16;
+      break;
+    case GL_SAMPLER_2D:
+    case GL_SAMPLER_CUBE:
+      res = 0;
+      break;
+    default:
+      break;
+  }
+  return res;
+}
+
 } // namespace gpu
 } // namespace rezero

@@ -15,6 +15,11 @@ class DeviceGL final : public Device {
 
   std::shared_ptr<Buffer> CreateNewBuffer(BufferType type, BufferUsage usage, std::size_t size) override;
 
+  std::shared_ptr<Shader> CreateNewShader(ShaderStage stage, const std::string& source) override;
+
+  std::shared_ptr<Program> CreateNewProgram(const std::shared_ptr<Shader>& vertex_shader,
+                                            const std::shared_ptr<Shader>& fragment_shader) override;
+
  private:
   REZERO_DISALLOW_COPY_AND_ASSIGN(DeviceGL);
 };

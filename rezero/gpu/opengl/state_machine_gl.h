@@ -17,9 +17,14 @@ class StateMachineGL final : public ThreadSingleton<StateMachineGL> {
   void BindBuffer(GLenum target, GLuint buffer_name);
   void UnbindBuffer(GLenum target, GLuint buffer_name);
 
+  void UseProgram(GLuint program);
+  void UnuseProgram(GLuint program);
+
  private:
   GLuint bound_vertex_buffer_ = 0;
   GLuint bound_index_buffer_ = 0;
+
+  GLuint used_program_ = 0;
 
   REZERO_DISALLOW_COPY_AND_ASSIGN(StateMachineGL);
 };

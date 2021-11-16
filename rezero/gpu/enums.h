@@ -23,6 +23,11 @@ enum class BufferUsage : uint32_t {
   kDynamic,
 };
 
+enum class ShaderStage : uint32_t {
+  kVertex,
+  kFragment,
+};
+
 } // namespace gpu
 } // namespace rezero
 

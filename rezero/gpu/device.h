@@ -19,6 +19,11 @@ class Device {
 
   virtual std::shared_ptr<Buffer> CreateNewBuffer(BufferType type, BufferUsage usage, std::size_t size) = 0;
 
+  virtual std::shared_ptr<Shader> CreateNewShader(ShaderStage stage, const std::string& source) = 0;
+
+  virtual std::shared_ptr<Program> CreateNewProgram(const std::shared_ptr<Shader>& vertex_shader,
+                                                    const std::shared_ptr<Shader>& fragment_shader) = 0;
+
  private:
   REZERO_DISALLOW_COPY_AND_ASSIGN(Device);
 };

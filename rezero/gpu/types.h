@@ -15,6 +15,7 @@ class Buffer;
 class Texture;
 class Pipeline;
 class RenderPass;
+class Shader;
 class Program;
 class VertexLayout;
 

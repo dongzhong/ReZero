@@ -49,5 +49,19 @@ void StateMachineGL::UnbindBuffer(GLenum target, GLuint buffer_name) {
   }
 }
 
+void StateMachineGL::UseProgram(GLuint program) {
+  if (used_program_ != program) {
+    used_program_ = program;
+    glUseProgram(used_program_);
+  }
+}
+
+void StateMachineGL::UnuseProgram(GLuint program) {
+  if (used_program_ == program) {
+    used_program_ = 0;
+    glUseProgram(used_program_);
+  }
+}
+
 } // namespace gpu
 } // namespace rezero
