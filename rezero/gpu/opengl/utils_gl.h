@@ -12,6 +12,12 @@
 namespace rezero {
 namespace gpu {
 
+#define REZERO_CHECK_GL_ERROR() \
+
+
+#define REZERO_DCHECK_GL_ERROR() \
+
+
 class UtilsGL final {
  public:
   static GLenum ToGLBufferType(BufferType type);
@@ -21,6 +27,17 @@ class UtilsGL final {
   static GLenum ToGLShaderStage(ShaderStage stage);
 
   static std::size_t GetGLDataTypeSize(GLenum type);
+
+  static GLenum ToGLMagSamplerFilter(SamplerFilter filter);
+
+  static GLenum ToGLMinSamplerFilter(SamplerFilter filter);
+
+  static GLenum ToGLSamplerAddressMode(SamplerAddressMode mode);
+
+  static void ToGLTypes(PixelFormat pixel_format,
+                        GLint& internal_format,
+                        GLenum& format,
+                        GLenum& type);
 
  private:
   UtilsGL();

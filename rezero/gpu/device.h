@@ -7,6 +7,7 @@
 
 #include "rezero/base/macros.h"
 #include "rezero/gpu/enums.h"
+#include "rezero/gpu/texture.h"
 #include "rezero/gpu/types.h"
 
 namespace rezero {
@@ -23,6 +24,8 @@ class Device {
 
   virtual std::shared_ptr<Program> CreateNewProgram(const std::shared_ptr<Shader>& vertex_shader,
                                                     const std::shared_ptr<Shader>& fragment_shader) = 0;
+
+  virtual std::shared_ptr<Texture> CreateNewTexture(const TextureDescriptor& descriptor) = 0;
 
  private:
   REZERO_DISALLOW_COPY_AND_ASSIGN(Device);

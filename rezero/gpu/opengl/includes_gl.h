@@ -13,4 +13,12 @@
 #include <OpenGLES/ES3/glext.h>
 #endif // defined(REZERO_PLATFORM_ANDROID)
 
+namespace rezero {
+namespace gpu {
+
+const static int kMaxTextureUnits = 8;
+
+} // namespace gpu
+} // namespace rezero
+
 #endif // REZERO_GPU_OPENGL_INCLUDES_GL_H_

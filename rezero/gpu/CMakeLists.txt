@@ -35,6 +35,7 @@ list(APPEND REZERO_GPU_SPECIFIC_HEADER
     gpu/opengl/program_gl.h
     gpu/opengl/shader_gl.h
     gpu/opengl/state_machine_gl.h
+    gpu/opengl/texture_gl.h
     gpu/opengl/utils_gl.h
 )
 
@@ -44,6 +45,7 @@ list(APPEND REZERO_GPU_SPECIFIC_SRC
     gpu/opengl/program_gl.cc
     gpu/opengl/shader_gl.cc
     gpu/opengl/state_machine_gl.cc
+    gpu/opengl/texture_gl.cc
     gpu/opengl/utils_gl.cc
 )
 
@@ -56,6 +58,7 @@ set(REZERO_GPU_HEADER
     gpu/program.h
     gpu/shader.h
     gpu/swap_chain.h
+    gpu/texture.h
     gpu/types.h
 )
 
@@ -67,4 +70,6 @@ set(REZERO_GPU_SRC
     gpu/program.cc
     gpu/shader.cc
     gpu/swap_chain.cc
+    gpu/texture.cc
+    gpu/types.cc
 )

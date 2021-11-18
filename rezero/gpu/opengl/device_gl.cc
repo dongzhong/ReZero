@@ -6,6 +6,7 @@
 #include "rezero/gpu/opengl/program_gl.h"
 #include "rezero/gpu/opengl/shader_gl.h"
 #include "rezero/gpu/opengl/state_machine_gl.h"
+#include "rezero/gpu/opengl/texture_gl.h"
 
 namespace rezero {
 namespace gpu {
@@ -29,6 +30,17 @@ std::shared_ptr<Shader> DeviceGL::CreateNewShader(ShaderStage stage, const std::
 std::shared_ptr<Program> DeviceGL::CreateNewProgram(const std::shared_ptr<Shader>& vertex_shader,
                                                     const std::shared_ptr<Shader>& fragment_shader) {
   return std::make_shared<ProgramGL>(vertex_shader, fragment_shader);
+}
+
+std::shared_ptr<Texture> DeviceGL::CreateNewTexture(const TextureDescriptor& descriptor) {
+  switch (descriptor.type) {
+    case TextureType::kTexture2D:
+      return std::make_shared<Texture2DGL>(descriptor);
+    case TextureType::kTextureCube:
+      return std::make_shared<TextureCubeGL>(descriptor);
+    default:
+      return nullptr;
+  }
 }
 
 } // namespace gpu

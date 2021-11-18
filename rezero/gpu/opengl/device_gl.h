@@ -20,6 +20,8 @@ class DeviceGL final : public Device {
   std::shared_ptr<Program> CreateNewProgram(const std::shared_ptr<Shader>& vertex_shader,
                                             const std::shared_ptr<Shader>& fragment_shader) override;
 
+  std::shared_ptr<Texture> CreateNewTexture(const TextureDescriptor& descriptor) override;
+
  private:
   REZERO_DISALLOW_COPY_AND_ASSIGN(DeviceGL);
 };
