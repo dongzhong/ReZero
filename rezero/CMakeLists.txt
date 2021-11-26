@@ -3,6 +3,7 @@ project(rezero_core)
 include(base/CMakeLists.txt)
 include(gpu/CMakeLists.txt)
 include(library/CMakeLists.txt)
+include(reflection/CMakeLists.txt)
 include(shell/CMakeLists.txt)
 
 set(REZERO_VERSION 0.1)
@@ -12,6 +13,7 @@ set(REZERO_HEADER
     ${REZERO_BASE_HEADER}
     ${REZERO_GPU_HEADER}
     ${REZERO_LIBRARY_HEADER}
+    ${REZERO_REFLECTION_HEADER}
     ${REZERO_SHELL_HEADER}
 )
 
@@ -20,6 +22,7 @@ set(REZERO_SRC
     ${REZERO_BASE_SRC}
     ${REZERO_GPU_SRC}
     ${REZERO_LIBRARY_SRC}
+    ${REZERO_REFLECTION_SRC}
     ${REZERO_SHELL_SRC}
 )
 
